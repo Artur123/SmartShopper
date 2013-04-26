@@ -8,4 +8,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Basket_Overview" >
 
+    <ListView
+        android:id="@+id/Basket_articleList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" >
+
+    </ListView>
+
+  
 </RelativeLayout>
