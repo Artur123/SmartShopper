@@ -25,7 +25,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="18dp"
             android:layout_marginLeft="24dp"
-            android:text="scan article" />
+            android:text="Scan Article" />
 
         <Button
             android:id="@+id/btnDoThings"
@@ -36,6 +36,15 @@
             android:layout_marginLeft="40dp"
             android:layout_toRightOf="@+id/btnScanArticle"
             android:text="Button" />
+
+        <Button
+            android:id="@+id/btnEnterBarcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/btnScanArticle"
+            android:layout_alignParentTop="true"
+            android:text="Enter Barcode" />
+
     </RelativeLayout>
 
 </LinearLayout>

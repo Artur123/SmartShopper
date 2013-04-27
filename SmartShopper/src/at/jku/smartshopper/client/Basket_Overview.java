@@ -8,12 +8,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
 import at.jku.smartshopper.listitems.Articletest;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
@@ -24,11 +26,13 @@ public class Basket_Overview extends Activity {
 	ArticleListAdapter adapter;
 	Button btnScanArt;
 	Button btnDoThings;
+	Button btnEnterBarcode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_basket_overview);
+		
 		 meineliste= new ArrayList<Articletest>();
 	        setup();
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
@@ -70,6 +74,44 @@ public class Basket_Overview extends Activity {
 				dialog.show();
 				
 			}
+		});
+		
+		btnEnterBarcode = (Button)findViewById(R.id.btnEnterBarcode);
+		btnEnterBarcode.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//TODO
+				AlertDialog.Builder enterBarcode = new AlertDialog.Builder(Basket_Overview.this);
+				
+				enterBarcode.setTitle("Enter Barcode");
+				enterBarcode.setTitle("Barcode eingeben");
+				
+				final EditText input = new EditText(Basket_Overview.this);
+				input.setInputType(InputType.TYPE_CLASS_NUMBER);
+				enterBarcode.setView(input);
+				
+				enterBarcode.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// OK Button
+						addArticle(input.getText().toString());
+					}
+				});
+				
+				enterBarcode.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Cancel Button
+						
+					}
+				});
+				
+				enterBarcode.show();
+			}
+			
 		});
 	}
 
@@ -145,11 +187,17 @@ public class Basket_Overview extends Activity {
 				requestCode, resultCode, intent);
 		if (scanResult != null) {
 			// handle scan result
-			
+			addArticle(scanResult.getContents());
 		}else{
 			
 		}
-
 	}
+	
+	public void addArticle(String barcode){
+		//TODO: check if Article is valid and add Article
+		btnEnterBarcode.setText(barcode);
+	}
+	
+	
 
 }
