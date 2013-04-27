@@ -14,6 +14,7 @@ import android.widget.ListView;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
 import at.jku.smartshopper.listitems.Articletest;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
