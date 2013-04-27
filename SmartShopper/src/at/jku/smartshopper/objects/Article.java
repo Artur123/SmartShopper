@@ -8,12 +8,8 @@
 
 package at.jku.smartshopper.objects;
 
-/*import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.fasterxml.jackson.annotation.JsonProperty;*/
 
 
 /**
@@ -37,20 +33,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;*/
  * 
  * 
  */
-
-/*@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "article", propOrder = {
-    "barcode",
-    "name",
-    "price"
-})*/
 public class Article {
 
-    //@XmlElement(required = true)
-    //@JsonProperty("barcode")
+    @JsonProperty("barcode")
     protected String barcode;
-    //@XmlElement(required = true)
-    //@JsonProperty("name")
+    @JsonProperty("name")
     protected String name;
     protected double price;
 

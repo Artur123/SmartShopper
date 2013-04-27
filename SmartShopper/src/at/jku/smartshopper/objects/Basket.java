@@ -10,11 +10,7 @@ package at.jku.smartshopper.objects;
 
 import java.util.ArrayList;
 import java.util.List;
-/*import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-*/
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * <p>Java class for basket complex type.
@@ -37,19 +33,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-/*
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "basket", propOrder = {
-    "rows",
-    "userId",
-    "shopId"
-})*/
 public class Basket {
 
-    //@XmlElement(required = true)
+	@JsonProperty("rows")
     protected List<BasketRow> rows;
-    //@XmlElement(required = true)
+	@JsonProperty("userId")
     protected String userId;
+	@JsonProperty("shopId")
     protected long shopId;
 
     /**
