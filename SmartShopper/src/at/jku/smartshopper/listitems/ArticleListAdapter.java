@@ -31,35 +31,36 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
-		AtomPaymentHolder holder = null;
+		ArticlerHolder holder = null;
 
 		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 		row = inflater.inflate(layoutResourceId, parent, false);
 
-		holder = new AtomPaymentHolder();
+		holder = new ArticlerHolder();
 		holder.article = items.get(position);
-		holder.removePaymentButton = (Button)row.findViewById(R.id.atomPay_removePay);
+		holder.removePaymentButton = (ImageButton)row.findViewById(R.id.atomPay_removePay);
 		holder.removePaymentButton.setTag(holder.article);
 		holder.name = (TextView)row.findViewById(R.id.articlename);
 		holder.value = (TextView)row.findViewById(R.id.article_value);
-		//holder.name = (TextView)row.findViewById(R.id.atomPay_name);
-		//holder.value = (TextView)row.findViewById(R.id.atomPay_value);
-
+		holder.count = (TextView)row.findViewById(R.id.article_count);
+		
 		row.setTag(holder);
 
 		setupItem(holder);
 		return row;
 	}
 
-	private void setupItem(AtomPaymentHolder holder) {
+	private void setupItem(ArticlerHolder holder) {
 		holder.name.setText(holder.article.getName());
 		holder.value.setText(String.valueOf(holder.article.getValue()));
+		holder.count.setText("1");
 	}
 
-	public static class AtomPaymentHolder {
+	public static class ArticlerHolder {
 		Articletest article;
+		TextView count;
 		TextView name;
 		TextView value;
-		Button removePaymentButton;
+		ImageButton removePaymentButton;
 	}
 }

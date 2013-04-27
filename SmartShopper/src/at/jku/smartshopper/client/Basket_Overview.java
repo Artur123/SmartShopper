@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -21,22 +23,56 @@ public class Basket_Overview extends Activity {
 	List<Articletest> meineliste;
 	ArticleListAdapter adapter;
 	Button btnScanArt;
+	Button btnDoThings;
 	TextView tv1;
+	TextView tv2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_basket_overview);
+		//EInfügen der Testxml !!
+		setContentView(R.layout.test_overview);
 		 meineliste= new ArrayList<Articletest>();
 	        setup();
 		tv1 = (TextView)findViewById(R.id.textView1);
-		
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
 		btnScanArt.setOnClickListener(new View.OnClickListener() {   
 
 			@Override
 			public void onClick(View v) {
 				scanArticle();
+			}
+		});
+		
+		
+		btnDoThings = (Button)findViewById(R.id.btnDoThings);
+		btnDoThings.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				
+				
+				AlertDialog.Builder builder = new AlertDialog.Builder(Basket_Overview.this);
+				// Add the buttons
+				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				               // User clicked OK button
+				           }
+				       });
+				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				               // User cancelled the dialog
+				           }
+				       });
+				// Set other dialog properties
+				builder.setMessage("Anzahl der gewünschten Produkte");
+			    builder.setTitle("Einstellungen");
+
+				// Create the AlertDialog
+				AlertDialog dialog = builder.create();
+				dialog.show();
+				
 			}
 		});
 	}
@@ -58,6 +94,20 @@ public class Basket_Overview extends Activity {
     	Articletest testarticle = new Articletest("Test", 13);
     	adapter.add(testarticle);
     	adapter.add(new Articletest("Hallo",15));
+    	adapter.insert(new Articletest("zweiter",30),0);
+    	adapter.insert(new Articletest("neuer",40),0);
+    	//Test bezüglich verhalten der Listview
+    	/*adapter.add(new Articletest("test1",15));
+    	adapter.add(new Articletest("familie",15));
+    	adapter.add(new Articletest("gratis",30));
+    	adapter.add(new Articletest("test2",25));
+    	adapter.add(new Articletest("todo",15));
+     	adapter.add(new Articletest("test1",15));
+    	adapter.add(new Articletest("familie",15));
+    	adapter.add(new Articletest("gratis",30));
+    	adapter.add(new Articletest("test2",25));
+    	adapter.add(new Articletest("todo",15));*/
+    	
     	//adapter.remove(testarticle);
     };
     
@@ -65,6 +115,28 @@ public class Basket_Overview extends Activity {
     	Articletest itemToRemove = (Articletest)v.getTag();
     	adapter.remove(itemToRemove);
     }
+    
+    public void changeNumber(View v){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(Basket_Overview.this);
+		// Add the buttons
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		               // User clicked OK button
+		           }
+		       });
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		               // User cancelled the dialog
+		           }
+		       });
+		// Set other dialog properties
+		builder.setMessage("Anzahl der gewünschten Produkte");
+	    builder.setTitle("Einstellungen");
+
+		// Create the AlertDialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
+		}
 
 
 	public void scanArticle() {
@@ -79,7 +151,7 @@ public class Basket_Overview extends Activity {
 			// handle scan result
 			tv1.setText(scanResult.getContents());
 		}else{
-			tv1.setText("blabla. blabla? bla!");
+			tv1.setText("blabla");
 		}
 
 	}
