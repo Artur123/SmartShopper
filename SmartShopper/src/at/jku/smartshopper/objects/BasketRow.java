@@ -9,10 +9,7 @@
 package at.jku.smartshopper.objects;
 
 import java.math.BigInteger;
-/*import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;*/
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
@@ -36,18 +33,13 @@ import javax.xml.bind.annotation.XmlType;*/
  * 
  * 
  */
-/*@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "basketRow", propOrder = {
-    "barcode",
-    "quantity",
-    "price"
-})*/
 public class BasketRow {
 
-   // @XmlElement(required = true)
+	@JsonProperty("barcode")
     protected String barcode;
-    //@XmlElement(required = true)
+	@JsonProperty("quantity")
     protected BigInteger quantity;
+	@JsonProperty("price")
     protected Double price;
 
     /**

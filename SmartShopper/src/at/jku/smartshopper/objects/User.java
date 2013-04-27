@@ -7,13 +7,8 @@
 
 
 package at.jku.smartshopper.objects;
-/*
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-*/
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * <p>Java class for user complex type.
  * 
@@ -38,27 +33,19 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-/*
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "user", propOrder = {
-    "name",
-    "surname",
-    "username",
-    "password",
-    "accountNumber",
-    "sortCode"
-})
-*/
 public class User {
 
-    //@XmlElement(required = true)
+	@JsonProperty("name")
     protected String name;
-    //@XmlElement(required = true)
+	@JsonProperty("surname")
     protected String surname;
-    //@XmlElement(required = true)
+	@JsonProperty("username")
     protected String username;
+	@JsonProperty("password")
     protected String password;
+	@JsonProperty("accountNumber")
     protected long accountNumber;
+	@JsonProperty("sortCode")
     protected long sortCode;
 
     /**
