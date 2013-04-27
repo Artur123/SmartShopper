@@ -79,7 +79,7 @@ public class Basket_Overview extends Activity {
 			// handle scan result
 			tv1.setText(scanResult.getContents());
 		}else{
-			tv1.setText("blabla");
+			tv1.setText("blabla. blabla? bla!");
 		}
 
 	}
