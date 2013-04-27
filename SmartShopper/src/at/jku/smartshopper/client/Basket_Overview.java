@@ -55,9 +55,17 @@ public class Basket_Overview extends Activity {
 				
 				AlertDialog.Builder builder = new AlertDialog.Builder(Basket_Overview.this);
 				// Add the buttons
+
+
+				// Set an EditText view to get user input 
+				final EditText input = new EditText(Basket_Overview.this);
+				builder.setView(input);
+
 				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 				           public void onClick(DialogInterface dialog, int id) {
-				               // User clicked OK button
+				        	   String value = input.getText().toString();
+				        	   // Do something with value!
+
 				           }
 				       });
 				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
