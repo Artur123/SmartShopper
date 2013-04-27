@@ -24,17 +24,13 @@ public class Basket_Overview extends Activity {
 	ArticleListAdapter adapter;
 	Button btnScanArt;
 	Button btnDoThings;
-	TextView tv1;
-	TextView tv2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//EInfügen der Testxml !!
-		setContentView(R.layout.test_overview);
+		setContentView(R.layout.activity_basket_overview);
 		 meineliste= new ArrayList<Articletest>();
 	        setup();
-		tv1 = (TextView)findViewById(R.id.textView1);
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
 		btnScanArt.setOnClickListener(new View.OnClickListener() {   
 
@@ -97,7 +93,7 @@ public class Basket_Overview extends Activity {
     	adapter.insert(new Articletest("zweiter",30),0);
     	adapter.insert(new Articletest("neuer",40),0);
     	//Test bezüglich verhalten der Listview
-    	/*adapter.add(new Articletest("test1",15));
+    	adapter.add(new Articletest("test1",15));
     	adapter.add(new Articletest("familie",15));
     	adapter.add(new Articletest("gratis",30));
     	adapter.add(new Articletest("test2",25));
@@ -106,7 +102,7 @@ public class Basket_Overview extends Activity {
     	adapter.add(new Articletest("familie",15));
     	adapter.add(new Articletest("gratis",30));
     	adapter.add(new Articletest("test2",25));
-    	adapter.add(new Articletest("todo",15));*/
+    	adapter.add(new Articletest("todo",15));
     	
     	//adapter.remove(testarticle);
     };
@@ -149,9 +145,9 @@ public class Basket_Overview extends Activity {
 				requestCode, resultCode, intent);
 		if (scanResult != null) {
 			// handle scan result
-			tv1.setText(scanResult.getContents());
+			
 		}else{
-			tv1.setText("blabla");
+			
 		}
 
 	}
