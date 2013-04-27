@@ -3,6 +3,7 @@ package at.jku.smartshopper.listitems;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.content.DialogInterface;
 import at.jku.smartshopper.client.R;
 
 public class ArticleListAdapter extends ArrayAdapter<Articletest> {
@@ -49,8 +51,12 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
-				holder.article.setCount(Integer.parseInt(arg0.toString()));
+				
 			}
+		    
+
+			//holder.article.setCount(Integer.parseInt(arg0.toString()));
+			
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
@@ -62,7 +68,23 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				// TODO Auto-generated method stub
+				/*
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		        builder.setMessage(s.toString())
+		               .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		                   public void onClick(DialogInterface dialog, int id) {
+		                     
+		                   }
+		               })
+		               .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		                   public void onClick(DialogInterface dialog, int id) {
+		                       // User cancelled the dialog
+		                   }
+		               });
+		        // Create the AlertDialog object and return it
+				builder.create();
+		        builder.show();
+				*/
 				
 			}
 		});
@@ -71,6 +93,7 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 		setupItem(holder);
 		return row;
 	}
+	
 
 	private void setupItem(ArticlerHolder holder) {
 		holder.name.setText(holder.article.getName());

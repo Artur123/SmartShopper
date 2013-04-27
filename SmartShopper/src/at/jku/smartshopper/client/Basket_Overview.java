@@ -100,9 +100,9 @@ public class Basket_Overview extends Activity {
     	adapter.add(testarticle);
     	adapter.add(new Articletest("Hallo",15));
     	adapter.insert(new Articletest("zweiter",30),0);
-    	adapter.insert(new Articletest("neuer",40),0);
+    	adapter.insert(new Articletest("erster",40),0);
     	//Test bezüglich verhalten der Listview
-    	adapter.add(new Articletest("test1",15));
+    	/*adapter.add(new Articletest("test1",15));
     	adapter.add(new Articletest("familie",15));
     	adapter.add(new Articletest("gratis",30));
     	adapter.add(new Articletest("test2",25));
@@ -112,7 +112,7 @@ public class Basket_Overview extends Activity {
     	adapter.add(new Articletest("gratis",30));
     	adapter.add(new Articletest("test2",25));
     	adapter.add(new Articletest("todo",15));
-    	
+    	*/
     	//adapter.remove(testarticle);
     };
     
