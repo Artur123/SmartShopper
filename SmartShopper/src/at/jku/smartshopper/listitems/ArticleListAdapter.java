@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,8 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 	private List<Articletest> items;
 	private int layoutResourceId;
 	private Context context;
-
+	ArticlerHolder holder;
+	
 	public ArticleListAdapter(Context context, int layoutResourceId, List<Articletest> items) {
 		super(context, layoutResourceId, items);
 		this.layoutResourceId = layoutResourceId;
@@ -31,7 +34,6 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
-		ArticlerHolder holder = null;
 
 		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 		row = inflater.inflate(layoutResourceId, parent, false);
@@ -43,7 +45,27 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 		holder.name = (TextView)row.findViewById(R.id.articlename);
 		holder.value = (TextView)row.findViewById(R.id.article_value);
 		holder.count = (TextView)row.findViewById(R.id.article_count);
-		
+		holder.count.addTextChangedListener(new TextWatcher(){
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				holder.article.setCount(Integer.parseInt(arg0.toString()));
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		row.setTag(holder);
 
 		setupItem(holder);
@@ -53,7 +75,7 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 	private void setupItem(ArticlerHolder holder) {
 		holder.name.setText(holder.article.getName());
 		holder.value.setText(String.valueOf(holder.article.getValue()));
-		holder.count.setText("1");
+		holder.count.setText(String.valueOf(holder.article.getCount()));
 	}
 
 	public static class ArticlerHolder {
