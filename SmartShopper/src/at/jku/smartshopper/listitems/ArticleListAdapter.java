@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.DialogInterface;
@@ -44,7 +45,7 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 
 		holder = new ArticlerHolder();
 		holder.article = items.get(position);
-		holder.removePaymentButton = (ImageButton)row.findViewById(R.id.atomPay_removePay);
+		holder.removePaymentButton = (ImageView)row.findViewById(R.id.atomPay_removePay);
 		holder.removePaymentButton.setTag(holder.article);
 		holder.name = (TextView)row.findViewById(R.id.articlename);
 		holder.value = (TextView)row.findViewById(R.id.article_value);
@@ -78,6 +79,6 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 		TextView count;
 		TextView name;
 		TextView value;
-		ImageButton removePaymentButton;
+		ImageView removePaymentButton;
 	}
 }

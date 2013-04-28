@@ -135,7 +135,7 @@ public class Basket_Overview extends Activity {
 	    adapter = new ArticleListAdapter(this, R.layout.article_list_item, meineliste);
 	    ListView articleListview = (ListView)findViewById(R.id.Basket_articleList);
 	    articleListview.setAdapter(adapter);
-  	
+	    
     	Articletest testarticle = new Articletest("Test", 13);
     	adapter.add(testarticle);
     	adapter.add(new Articletest("Hallo",15));
