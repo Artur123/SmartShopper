@@ -140,7 +140,7 @@ public class Basket_Overview extends Activity {
     	adapter.add(testarticle);
     	adapter.add(new Articletest("Hallo",15));
     	adapter.insert(new Articletest("zweiter",30),0);
-    	adapter.insert(new Articletest("erster",40),0);
+    	adapter.insert(new Articletest("Vöslauer Mineralwasser",40),0);
     	//Test bezüglich verhalten der Listview
     	/*adapter.add(new Articletest("test1",15));
     	adapter.add(new Articletest("familie",15));

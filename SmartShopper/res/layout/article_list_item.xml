@@ -4,11 +4,11 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/buttonminus"
-        android:layout_width="wrap_content"
-         android:layout_height="fill_parent"
-        android:text="-" />
+   <ImageView
+        android:id="@+id/amount_decrease"
+        android:layout_width="24dp"
+          android:layout_height="40dp"
+        android:src="@drawable/decrease_amount_hollow" />
 
  
     <TextView
@@ -16,22 +16,22 @@
         android:layout_width="0sp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceSmall"/>
     
-       <Button
-        android:id="@+id/buttonplus"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:text="+" />
+       <ImageView
+        android:id="@+id/amount_increase"
+        android:layout_width="24dp"
+        android:layout_height="40dp"
+        android:src="@drawable/increase_amount_hollow" />
     
 
       <TextView
         android:id="@+id/articlename"
         android:layout_width="0sp"
         android:layout_height="fill_parent"
-        android:layout_weight="2"
-        android:gravity="center_vertical"
+        android:layout_weight="4"
+         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -49,5 +49,5 @@
         android:layout_height="fill_parent"
         android:contentDescription="@string/removeItem"
         android:onClick="removeArticleHandler"
-        android:src="@android:drawable/ic_menu_delete" />
+        android:src="@drawable/ic_menu_delete" />
 </LinearLayout>

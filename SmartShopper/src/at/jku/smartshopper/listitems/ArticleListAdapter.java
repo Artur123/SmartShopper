@@ -50,17 +50,6 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 		holder.name = (TextView)row.findViewById(R.id.articlename);
 		holder.value = (TextView)row.findViewById(R.id.article_value);
 		holder.count = (TextView)row.findViewById(R.id.article_count);
-		holder.count.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-			    if(hasFocus){
-			       //Toast.makeText(context, "got the focus", Toast.LENGTH_LONG).show();
-			    }else
-			        //Toast.makeText(context, "lost the focus", Toast.LENGTH_LONG).show();
-			    	holder.article.setCount(Integer.parseInt(holder.count.getText().toString()));
-			    }
-			});
-
 		row.setTag(holder);
 
 		setupItem(holder);
