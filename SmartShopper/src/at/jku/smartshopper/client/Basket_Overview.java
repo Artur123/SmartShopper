@@ -17,6 +17,7 @@ import at.jku.smartshopper.listitems.Articletest;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
 
@@ -89,7 +90,6 @@ public class Basket_Overview extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				//TODO
 				AlertDialog.Builder enterBarcode = new AlertDialog.Builder(Basket_Overview.this);
 				
 				enterBarcode.setTitle("Enter Barcode");
@@ -112,8 +112,7 @@ public class Basket_Overview extends Activity {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Cancel Button
-						
+						dialog.dismiss();
 					}
 				});
 				
@@ -197,13 +196,13 @@ public class Basket_Overview extends Activity {
 			// handle scan result
 			addArticle(scanResult.getContents());
 		}else{
-			
+			//TODO: scan failed
 		}
 	}
 	
 	public void addArticle(String barcode){
 		//TODO: check if Article is valid and add Article
-		btnEnterBarcode.setText(barcode);
+		Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_LONG).show();
 	}
 	
 	
