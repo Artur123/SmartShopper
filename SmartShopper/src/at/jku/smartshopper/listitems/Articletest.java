@@ -12,7 +12,7 @@ public class Articletest implements Serializable {
 	public Articletest(String name, double value) {
 		this.setName(name);
 		this.setValue(value);
-		this.setCount(1);
+		this.setCount(2);
 	}
 	
 	public String getName() {
