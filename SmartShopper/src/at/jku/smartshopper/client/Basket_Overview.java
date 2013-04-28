@@ -137,30 +137,27 @@ public class Basket_Overview extends Activity {
     	Articletest itemToRemove = (Articletest)v.getTag();
     	adapter.remove(itemToRemove);
     }
+    public void decreaseAmount(View v) {
+    	//Furchtbare Lösung !!!
+    	//Achtung bei 0
+    	Articletest item = (Articletest)v.getTag();
+    	int pos = adapter.getPosition(item);
+    	adapter.remove(item);
+    	int wert = item.getCount() -1;
+    	item.setCount(wert);
+    	adapter.insert(item, pos);
+    }
+    public void increaseAmount(View v) {
+    	//Furchtbare Lösung !!!
+    	Articletest item = (Articletest)v.getTag();
+    	int pos = adapter.getPosition(item);
+    	adapter.remove(item);
+    	int wert = item.getCount() +1;
+    	item.setCount(wert);
+    	adapter.insert(item, pos);
+    }
     
-    public void changeNumber(View v){
-    	AlertDialog.Builder builder = new AlertDialog.Builder(Basket_Overview.this);
-		// Add the buttons
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		               // User clicked OK button
-		           }
-		       });
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		               // User cancelled the dialog
-		           }
-		       });
-		// Set other dialog properties
-		builder.setMessage("Anzahl der gewünschten Produkte");
-	    builder.setTitle("Einstellungen");
-
-		// Create the AlertDialog
-		AlertDialog dialog = builder.create();
-		dialog.show();
-		}
-
-
+  
 	public void scanArticle() {
 		IntentIntegrator integrator = new IntentIntegrator(Basket_Overview.this);
 		integrator.initiateScan();

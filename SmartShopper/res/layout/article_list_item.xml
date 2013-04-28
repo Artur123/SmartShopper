@@ -8,6 +8,7 @@
         android:id="@+id/amount_decrease"
         android:layout_width="24dp"
           android:layout_height="40dp"
+          android:onClick="decreaseAmount"
         android:src="@drawable/decrease_amount_hollow" />
 
  
@@ -23,6 +24,7 @@
         android:id="@+id/amount_increase"
         android:layout_width="24dp"
         android:layout_height="40dp"
+        android:onClick="increaseAmount"
         android:src="@drawable/increase_amount_hollow" />
     
 
