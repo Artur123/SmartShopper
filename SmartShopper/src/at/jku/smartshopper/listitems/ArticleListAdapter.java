@@ -47,6 +47,11 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 		holder.article = items.get(position);
 		holder.removePaymentButton = (ImageView)row.findViewById(R.id.atomPay_removePay);
 		holder.removePaymentButton.setTag(holder.article);
+		holder.decreaseButton = (ImageView)row.findViewById(R.id.amount_decrease);
+		holder.decreaseButton.setTag(holder.article);
+		holder.increaseButton = (ImageView)row.findViewById(R.id.amount_increase);
+		holder.increaseButton.setTag(holder.article);
+		
 		holder.name = (TextView)row.findViewById(R.id.articlename);
 		holder.value = (TextView)row.findViewById(R.id.article_value);
 		holder.count = (TextView)row.findViewById(R.id.article_count);
@@ -68,6 +73,8 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 		TextView count;
 		TextView name;
 		TextView value;
+		ImageView increaseButton;
+		ImageView decreaseButton;
 		ImageView removePaymentButton;
 	}
 }
