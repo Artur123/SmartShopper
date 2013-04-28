@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.InputType;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
@@ -28,7 +29,9 @@ public class Basket_Overview extends Activity {
 	Button btnScanArt;
 	Button btnDoThings;
 	Button btnEnterBarcode;
-
+	
+	MenuItem itEnterBarcode;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,8 +54,6 @@ public class Basket_Overview extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				
-				
 				
 				AlertDialog.Builder builder = new AlertDialog.Builder(Basket_Overview.this);
 				// Add the buttons
@@ -90,36 +91,12 @@ public class Basket_Overview extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder enterBarcode = new AlertDialog.Builder(Basket_Overview.this);
-				
-				enterBarcode.setTitle("Enter Barcode");
-				enterBarcode.setTitle("Barcode eingeben");
-				
-				final EditText input = new EditText(Basket_Overview.this);
-				input.setInputType(InputType.TYPE_CLASS_NUMBER);
-				enterBarcode.setView(input);
-				
-				enterBarcode.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// OK Button
-						addArticle(input.getText().toString());
-					}
-				});
-				
-				enterBarcode.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
-				
-				enterBarcode.show();
+				enterBarcode();
 			}
 			
 		});
+		
+		
 	}
 
 
@@ -205,6 +182,34 @@ public class Basket_Overview extends Activity {
 		Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_LONG).show();
 	}
 	
-	
+	public void enterBarcode(){
+		AlertDialog.Builder enterBarcode = new AlertDialog.Builder(Basket_Overview.this);
+		
+		enterBarcode.setTitle("Enter Barcode");
+		enterBarcode.setTitle("Barcode eingeben");
+		
+		final EditText input = new EditText(Basket_Overview.this);
+		input.setInputType(InputType.TYPE_CLASS_NUMBER);
+		enterBarcode.setView(input);
+		
+		enterBarcode.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// OK Button
+				addArticle(input.getText().toString());
+			}
+		});
+		
+		enterBarcode.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		
+		enterBarcode.show();
+	}
 
 }
