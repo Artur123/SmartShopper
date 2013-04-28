@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +34,7 @@ public class Basket_Overview extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_basket_overview);
-
+		
 		meineliste = new ArrayList<Articletest>();
 		setup();
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
@@ -207,4 +208,10 @@ public class Basket_Overview extends Activity {
 		enterBarcode.show();
 	}
 
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
+		
+	}
 }
