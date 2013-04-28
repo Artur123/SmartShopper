@@ -51,5 +51,5 @@
         android:layout_height="fill_parent"
         android:contentDescription="@string/removeItem"
         android:onClick="removeArticleHandler"
-        android:src="@drawable/ic_menu_delete" />
+        android:src="@android:drawable/ic_menu_delete" />
 </LinearLayout>
