@@ -162,11 +162,11 @@ public class Basket_Overview extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(
 				requestCode, resultCode, intent);
-		if (scanResult != null) {
+		if (scanResult.getContents() != null) {
 			// handle scan result
 			addArticle(scanResult.getContents());
 		} else {
-			// TODO: scan failed
+			// TODO: scan failed or aborted
 		}
 	}
 

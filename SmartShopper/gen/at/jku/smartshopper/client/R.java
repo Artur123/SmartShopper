@@ -42,6 +42,7 @@ public final class R {
         public static final int btnDoThings=0x7f080002;
         public static final int btnScanArticle=0x7f080001;
         public static final int menu_enter_barcode=0x7f080009;
+        public static final int menu_stats=0x7f08000a;
     }
     public static final class layout {
         public static final int activity_basket_overview=0x7f030000;
