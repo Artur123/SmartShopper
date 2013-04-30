@@ -18,7 +18,6 @@ import at.jku.smartshopper.listitems.ArticleListAdapter;
 import at.jku.smartshopper.listitems.Articletest;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
@@ -34,7 +33,7 @@ public class Basket_Overview extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_basket_overview);
-		
+
 		meineliste = new ArrayList<Articletest>();
 		setup();
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
@@ -99,9 +98,18 @@ public class Basket_Overview extends Activity {
 		case R.id.menu_enter_barcode:
 			enterBarcode();
 			return true;
+		case R.id.menu_stats:
+			showStatistics();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	private void showStatistics(){
+		final  Intent intent = new Intent(this, at.jku.smartshopper.client.Show_Statistics.class);
+		
+		startActivity(intent);
 	}
 
 	public void setup() {
@@ -172,15 +180,19 @@ public class Basket_Overview extends Activity {
 
 	public void addArticle(String barcode) {
 		// TODO: check if Article is valid and add Article
-		Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_LONG).show();
+		if (barcode == null) {
+			showDialog("Exception", "Article not found.");
+		}else{
+			Articletest newArticle = new Articletest(barcode, 14.99);
+			adapter.add(newArticle);
+			Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_SHORT).show();
+		}
 	}
+	
+	private void enterBarcode() {
+		AlertDialog.Builder enterBarcode = new AlertDialog.Builder(this);
 
-	public void enterBarcode() {
-		AlertDialog.Builder enterBarcode = new AlertDialog.Builder(
-				Basket_Overview.this);
-
-		enterBarcode.setTitle("Enter Barcode");
-		enterBarcode.setTitle("Barcode eingeben");
+		enterBarcode.setTitle("Enter Barcode:");
 
 		final EditText input = new EditText(Basket_Overview.this);
 		input.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -212,6 +224,26 @@ public class Basket_Overview extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
-		
+
+	}
+	
+	/**
+	 * Displays an alertDialog with one 'OK' Button
+	 * @param title
+	 * @param message
+	 */
+	private void showDialog(String title, String message){
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+		alertDialog.setTitle(title);
+		alertDialog.setMessage(message);
+		alertDialog.setCancelable(true);
+		alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		alertDialog.show();
 	}
 }

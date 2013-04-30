@@ -26,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="at.jku.smartshopper.client.Show_Statistics"
+            android:label="@string/app_name"
+            android:configChanges="orientation|screenSize" >
+            
+        </activity>
     </application>
 
 </manifest>
