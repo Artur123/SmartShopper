@@ -148,8 +148,15 @@ public class Basket_Overview extends Activity {
 		int pos = adapter.getPosition(item);
 		adapter.remove(item);
 		int wert = item.getCount() - 1;
+		if(wert == 0)
+		{
+			//do_nothing
+		}
+		else
+		{
 		item.setCount(wert);
 		adapter.insert(item, pos);
+		}
 	}
 
 	public void increaseAmount(View v) {
