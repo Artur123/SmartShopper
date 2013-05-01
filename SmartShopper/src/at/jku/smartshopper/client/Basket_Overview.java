@@ -13,6 +13,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ListView;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
 import at.jku.smartshopper.listitems.Articletest;
@@ -223,8 +224,7 @@ public class Basket_Overview extends Activity {
 						dialog.dismiss();
 					}
 				});
-
-		enterBarcode.show();
+		enterBarcode.show().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 	}
 
 	@Override
