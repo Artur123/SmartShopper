@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 
 public class About extends Activity {
@@ -47,6 +48,27 @@ public class About extends Activity {
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
 			NavUtils.navigateUpFromSameTask(this);
+			// This is called when the Home (Up) button is pressed
+            // in the Action Bar.
+//            Intent parentActivityIntent = new Intent(this, Basket_Overview.class);
+//            parentActivityIntent.addFlags(
+//                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
+//                    Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(parentActivityIntent);
+            finish();
+            return true;
+
+		case R.id.menu_stats:
+			NavUtils.navigateUpTo(this, new Intent(this,
+					at.jku.smartshopper.client.Show_Statistics.class));
+			return true;
+		case R.id.basket_overview:
+			finish();
+//			Intent parentActivityIntent = new Intent(this, Basket_Overview.class);
+//			 parentActivityIntent.addFlags( 
+//                   Intent.FLAG_ACTIVITY_CLEAR_TOP |
+//                   Intent.FLAG_ACTIVITY_NEW_TASK);
+//			NavUtils.navigateUpTo(this, parentActivityIntent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -3,23 +3,23 @@ package at.jku.smartshopper.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ListView;
-import at.jku.smartshopper.listitems.ArticleListAdapter;
-import at.jku.smartshopper.listitems.Articletest;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
+import at.jku.smartshopper.listitems.ArticleListAdapter;
+import at.jku.smartshopper.listitems.Articletest;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
 
@@ -35,6 +35,9 @@ public class Basket_Overview extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_basket_overview);
 
+		this.getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+		
 		meineliste = new ArrayList<Articletest>();
 		setup();
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
@@ -85,11 +88,12 @@ public class Basket_Overview extends Activity {
 				at.jku.smartshopper.client.Show_Statistics.class);
 
 		startActivity(intent);
+		
 	}
 
 	private void showAbout() {
 		final Intent intent = new Intent(this,
-				at.jku.smartshopper.client.About.class);
+				at.jku.smartshopper.client.About.class); 
 
 		startActivity(intent);
 	}
