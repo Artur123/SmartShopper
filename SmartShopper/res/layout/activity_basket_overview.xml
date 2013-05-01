@@ -32,13 +32,13 @@
             android:text="Scan Article" />
 
         <Button
-            android:id="@+id/btnDoThings"
+            android:id="@+id/btnCheckout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/btnScanArticle"
             android:layout_alignBottom="@+id/btnScanArticle"
             android:layout_alignParentRight="true"
-            android:text="Button" />
+            android:text="Checkout" />
 
     </RelativeLayout>
 
