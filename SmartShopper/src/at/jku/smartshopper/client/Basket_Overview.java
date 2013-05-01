@@ -137,6 +137,9 @@ public class Basket_Overview extends Activity {
 			adapter.insert(item, pos);
 		}
 	}
+	public void About(View v){
+		  //TODO
+	}
 
 	public void increaseAmount(View v) {
 		// Furchtbare Lösung !!!
