@@ -80,7 +80,7 @@ public class Basket_Overview extends Activity {
 				// Create the AlertDialog
 				AlertDialog dialog = builder.create();
 				dialog.show();
-
+		
 			}
 		});
 	}
@@ -101,14 +101,25 @@ public class Basket_Overview extends Activity {
 		case R.id.menu_stats:
 			showStatistics();
 			return true;
+		case R.id.about:
+			showAbout();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	private void showStatistics(){
-		final  Intent intent = new Intent(this, at.jku.smartshopper.client.Show_Statistics.class);
-		
+
+	private void showStatistics() {
+		final Intent intent = new Intent(this,
+				at.jku.smartshopper.client.Show_Statistics.class);
+
+		startActivity(intent);
+	}
+
+	private void showAbout() {
+		final Intent intent = new Intent(this,
+				at.jku.smartshopper.client.About.class);
+
 		startActivity(intent);
 	}
 
@@ -148,14 +159,11 @@ public class Basket_Overview extends Activity {
 		int pos = adapter.getPosition(item);
 		adapter.remove(item);
 		int wert = item.getCount() - 1;
-		if(wert == 0)
-		{
-			//do_nothing
-		}
-		else
-		{
-		item.setCount(wert);
-		adapter.insert(item, pos);
+		if (wert == 0) {
+			// do_nothing
+		} else {
+			item.setCount(wert);
+			adapter.insert(item, pos);
 		}
 	}
 
@@ -189,13 +197,14 @@ public class Basket_Overview extends Activity {
 		// TODO: check if Article is valid and add Article
 		if (barcode == null) {
 			showDialog("Exception", "Article not found.");
-		}else{
+		} else {
 			Articletest newArticle = new Articletest(barcode, 14.99);
 			adapter.add(newArticle);
-			Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
-	
+
 	private void enterBarcode() {
 		AlertDialog.Builder enterBarcode = new AlertDialog.Builder(this);
 
@@ -233,24 +242,26 @@ public class Basket_Overview extends Activity {
 		super.onConfigurationChanged(newConfig);
 
 	}
-	
+
 	/**
 	 * Displays an alertDialog with one 'OK' Button
+	 * 
 	 * @param title
 	 * @param message
 	 */
-	private void showDialog(String title, String message){
+	private void showDialog(String title, String message) {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 		alertDialog.setTitle(title);
 		alertDialog.setMessage(message);
 		alertDialog.setCancelable(true);
-		alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
+		alertDialog.setNeutralButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
 		alertDialog.show();
 	}
 }
