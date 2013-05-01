@@ -28,7 +28,7 @@ public class Basket_Overview extends Activity {
 	List<Articletest> meineliste;
 	ArticleListAdapter adapter;
 	Button btnScanArt;
-	Button btnDoThings;
+	Button btnCheckout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,43 +45,13 @@ public class Basket_Overview extends Activity {
 				scanArticle();
 			}
 		});
-
-		btnDoThings = (Button) findViewById(R.id.btnDoThings);
-		btnDoThings.setOnClickListener(new View.OnClickListener() {
+		
+		btnCheckout = (Button) findViewById(R.id.btnCheckout);
+		btnScanArt.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-
-				AlertDialog.Builder builder = new AlertDialog.Builder(
-						Basket_Overview.this);
-				// Add the buttons
-
-				// Set an EditText view to get user input
-				final EditText input = new EditText(Basket_Overview.this);
-				builder.setView(input);
-
-				builder.setPositiveButton("OK",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								String value = input.getText().toString();
-								// Do something with value!
-
-							}
-						});
-				builder.setNegativeButton("Cancel",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// User cancelled the dialog
-							}
-						});
-				// Set other dialog properties
-				builder.setMessage("Anzahl der gewünschten Produkte");
-				builder.setTitle("Einstellungen");
-
-				// Create the AlertDialog
-				AlertDialog dialog = builder.create();
-				dialog.show();
-		
+				//TODO
 			}
 		});
 	}
