@@ -243,7 +243,4 @@ public class Basket_Overview extends Activity {
 		alertDialog.show();
 	}
 	
-	public void About(View v){
-		//TODO
-	}
 }
