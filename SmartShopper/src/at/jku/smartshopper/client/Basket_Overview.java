@@ -52,7 +52,7 @@ public class Basket_Overview extends Activity {
 		});
 		
 		btnCheckout = (Button) findViewById(R.id.btnCheckout);
-		btnScanArt.setOnClickListener(new View.OnClickListener() {
+		btnCheckout.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
