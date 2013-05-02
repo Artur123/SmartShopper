@@ -54,7 +54,7 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 		
 		holder.name = (TextView)row.findViewById(R.id.articlename);
 		holder.value = (TextView)row.findViewById(R.id.article_value);
-		holder.count = (TextView)row.findViewById(R.id.article_count);
+		holder.quantity = (TextView)row.findViewById(R.id.article_count);
 		row.setTag(holder);
 
 		setupItem(holder);
@@ -65,12 +65,12 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 	private void setupItem(ArticlerHolder holder) {
 		holder.name.setText(holder.article.getName());
 		holder.value.setText(String.valueOf(holder.article.getValue()));
-		holder.count.setText(String.valueOf(holder.article.getCount()));
+		holder.quantity.setText(String.valueOf(holder.article.getQuantity()));
 	}
 
 	public static class ArticlerHolder {
 		Articletest article;
-		TextView count;
+		TextView quantity;
 		TextView name;
 		TextView value;
 		ImageView increaseButton;

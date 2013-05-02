@@ -133,11 +133,11 @@ public class Basket_Overview extends Activity {
 		Articletest item = (Articletest) v.getTag();
 		int pos = adapter.getPosition(item);
 		adapter.remove(item);
-		int wert = item.getCount() - 1;
+		int wert = item.getQuantity() - 1;
 		if (wert == 0) {
 			// do_nothing
 		} else {
-			item.setCount(wert);
+			item.setQuantity(wert);
 			adapter.insert(item, pos);
 		}
 	}
@@ -147,8 +147,8 @@ public class Basket_Overview extends Activity {
 		Articletest item = (Articletest) v.getTag();
 		int pos = adapter.getPosition(item);
 		adapter.remove(item);
-		int wert = item.getCount() + 1;
-		item.setCount(wert);
+		int wert = item.getQuantity() + 1;
+		item.setQuantity(wert);
 		adapter.insert(item, pos);
 	}
 
