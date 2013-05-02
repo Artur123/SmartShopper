@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
 import at.jku.smartshopper.listitems.Articletest;
@@ -29,6 +30,7 @@ public class Basket_Overview extends Activity {
 	ArticleListAdapter adapter;
 	Button btnScanArt;
 	Button btnCheckout;
+	TextView txtTotalAmount;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +106,12 @@ public class Basket_Overview extends Activity {
 		ListView articleListview = (ListView) findViewById(R.id.Basket_articleList);
 		articleListview.setAdapter(adapter);
 
-		Articletest testarticle = new Articletest("Test", 13);
+		Articletest testarticle = new Articletest("Haribo ", 1);
 		adapter.add(testarticle);
-		adapter.add(new Articletest("Hallo", 15));
-		adapter.insert(new Articletest("zweiter", 30), 0);
+		adapter.add(new Articletest("Merci Tafel Nugat", 15));
+		adapter.insert(new Articletest("Kinder Pinguin", 30.99), 0);
 		adapter.insert(new Articletest("Vöslauer Mineralwasser", 40), 0);
+		updateTotal();
 		// Test bezüglich verhalten der Listview
 		/*
 		 * adapter.add(new Articletest("test1",15)); adapter.add(new
@@ -141,6 +144,7 @@ public class Basket_Overview extends Activity {
 			item.setCount(wert);
 			adapter.insert(item, pos);
 		}
+		updateTotal();
 	}
 	public void About(View v){
 		  //TODO
@@ -154,6 +158,7 @@ public class Basket_Overview extends Activity {
 		int wert = item.getCount() + 1;
 		item.setCount(wert);
 		adapter.insert(item, pos);
+		updateTotal();
 	}
 
 	public void scanArticle() {
@@ -179,6 +184,7 @@ public class Basket_Overview extends Activity {
 		} else {
 			Articletest newArticle = new Articletest(barcode, 14.99);
 			adapter.add(newArticle);
+			updateTotal();
 			Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_SHORT)
 					.show();
 		}
@@ -241,6 +247,22 @@ public class Basket_Overview extends Activity {
 					}
 				});
 		alertDialog.show();
+	}
+	
+	public void updateTotal()
+	{
+		double sum = 0;
+		for(int i = 0; i < adapter.getCount(); i++)
+		{
+			sum = sum + adapter.getItem(i).getValue() * adapter.getItem(i).getCount();
+		}
+		sum = sum * 100;
+		sum = Math.round(sum);
+		sum = sum / 100;
+				
+		txtTotalAmount = (TextView) findViewById(R.id.txtTotalAmount);
+		txtTotalAmount.setText(sum + " Total");
+	
 	}
 	
 }
