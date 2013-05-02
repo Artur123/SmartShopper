@@ -32,8 +32,6 @@ public class ArticleListAdapter extends ArrayAdapter<Articletest> {
 		this.layoutResourceId = layoutResourceId;
 		this.context = context;
 		this.items = items;
-
-		
 	}
 
 	@Override
