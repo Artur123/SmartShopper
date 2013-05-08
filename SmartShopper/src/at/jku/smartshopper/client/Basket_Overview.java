@@ -31,14 +31,16 @@ public class Basket_Overview extends Activity {
 	Button btnScanArt;
 	Button btnCheckout;
 	TextView txtTotalAmount;
+	
+	boolean checkoutDialog_result = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_basket_overview);
 
-		this.getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_NEW_TASK);
+		//this.getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+        //        Intent.FLAG_ACTIVITY_NEW_TASK);
 		
 		meineliste = new ArrayList<Articletest>();
 		setup();
@@ -56,7 +58,7 @@ public class Basket_Overview extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				//TODO
+				scanQR_Code();
 			}
 		});
 	}
@@ -148,9 +150,6 @@ public class Basket_Overview extends Activity {
 		}
 		updateTotal();
 	}
-	public void About(View v){
-		  //TODO
-	}
 
 	public void increaseAmount(View v) {
 		// Furchtbare Lösung !!!
@@ -167,16 +166,60 @@ public class Basket_Overview extends Activity {
 		IntentIntegrator integrator = new IntentIntegrator(Basket_Overview.this);
 		integrator.initiateScan();
 	}
+	
+	public void scanQR_Code() {
+		AlertDialog.Builder checkoutDialog = new AlertDialog.Builder(this);
+
+		checkoutDialog.setTitle("Got everything?");
+
+		checkoutDialog.setPositiveButton("Checkout!",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// OK Button
+						//set QR Result and start scan
+						checkoutDialog_result  = true;
+						IntentIntegrator integrator = new IntentIntegrator(Basket_Overview.this);
+						//integrator.setMessage("Place the QR-code inside the viewfinder rectangle to checkout.");
+						integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
+					}
+				});
+
+		checkoutDialog.setNegativeButton("Continue Shopping",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//set dialog result and dismiss
+						dialog.dismiss();
+						checkoutDialog_result = false;
+					}
+				});
+		checkoutDialog.show();
+	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(
 				requestCode, resultCode, intent);
 		if (scanResult.getContents() != null) {
 			// handle scan result
-			addArticle(scanResult.getContents());
+			String code = scanResult.getContents();
+			if((scanResult.getFormatName().equals("QR_CODE")) && checkoutDialog_result)
+			{
+				//TODO
+				checkout();
+			}else{
+				addArticle(code);
+			}
 		} else {
-			// TODO: scan failed or aborted
+			checkoutDialog_result = false;
 		}
+	}
+	
+	public void checkout(){
+		//TODO
+		Toast.makeText(this, txtTotalAmount.getText(), Toast.LENGTH_SHORT).show();
 	}
 
 	public void addArticle(String barcode) {
@@ -224,9 +267,7 @@ public class Basket_Overview extends Activity {
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
-
 	}
 
 	/**
@@ -265,6 +306,5 @@ public class Basket_Overview extends Activity {
 		txtTotalAmount = (TextView) findViewById(R.id.txtTotalAmount);
 		txtTotalAmount.setText(sum + " Total");
 	
-	}
-	
+	}	
 }
