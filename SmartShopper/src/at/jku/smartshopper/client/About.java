@@ -37,9 +37,9 @@ public class About extends Activity {
 			// This is called when the Home (Up) button is pressed
             // in the Action Bar.
             Intent parentActivityIntent = new Intent(this, Basket_Overview.class);
-            parentActivityIntent.addFlags(
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                    Intent.FLAG_ACTIVITY_NEW_TASK);
+            parentActivityIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    //Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    //Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(parentActivityIntent);
             finish();
             return true;
