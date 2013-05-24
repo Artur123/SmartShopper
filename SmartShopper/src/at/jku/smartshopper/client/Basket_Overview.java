@@ -1,15 +1,24 @@
 package at.jku.smartshopper.client;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,18 +28,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import at.jku.smartshopper.backend.IBasketService;
+import at.jku.smartshopper.backend.RemoteBasketService;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
-import at.jku.smartshopper.listitems.Articletest;
+import at.jku.smartshopper.objects.Basket;
+import at.jku.smartshopper.objects.BasketRow;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
 
 public class Basket_Overview extends Activity {
 
-	List<Articletest> meineliste;
+	List<BasketRow> meineliste;
 	ArticleListAdapter adapter;
 	Button btnScanArt;
 	Button btnCheckout;
 	TextView txtTotalAmount;
+	private ProgressDialog progressDialog;
+	private boolean destroyed = false;
 	
 	boolean checkoutDialog_result = false;
 
@@ -42,7 +56,7 @@ public class Basket_Overview extends Activity {
 		//this.getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
         //        Intent.FLAG_ACTIVITY_NEW_TASK);
 		
-		meineliste = new ArrayList<Articletest>();
+		meineliste = new ArrayList<BasketRow>();
 		setup();
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
 		btnScanArt.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +72,10 @@ public class Basket_Overview extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				scanQR_Code();
+				//TODO scan qr code before
+//				scanQR_Code();
+				PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
+				performCheckoutTask.execute();
 			}
 		});
 	}
@@ -86,6 +103,29 @@ public class Basket_Overview extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		this.destroyed = true;
+	}
+
+
+	public void showProgressDialog(CharSequence message) {
+		if (this.progressDialog == null) {
+			this.progressDialog = new ProgressDialog(this);
+			this.progressDialog.setIndeterminate(true);
+		}
+
+		this.progressDialog.setMessage(message);
+		this.progressDialog.show();
+	}
+
+	public void dismissProgressDialog() {
+		if (this.progressDialog != null && !this.destroyed) {
+			this.progressDialog.dismiss();
+		}
+	}
 
 	private void showStatistics() {
 		final Intent intent = new Intent(this,
@@ -108,27 +148,27 @@ public class Basket_Overview extends Activity {
 		ListView articleListview = (ListView) findViewById(R.id.Basket_articleList);
 		articleListview.setAdapter(adapter);
 
-		Articletest testarticle = new Articletest("Haribo ", 1);
+		BasketRow testarticle = new BasketRow("0", "Haribo ", BigInteger.ONE, 1.0);
 		adapter.add(testarticle);
-		adapter.add(new Articletest("Merci Tafel Nugat", 15));
-		adapter.insert(new Articletest("Kinder Pinguin", 30.99), 0);
-		adapter.insert(new Articletest("Vöslauer Mineralwasser", 40), 0);
+		adapter.add(new BasketRow("1", "Merci Tafel Nugat", BigInteger.ONE, 15.0));
+		adapter.insert(new BasketRow("2", "Kinder Pinguin", BigInteger.ONE, 30.99), 0);
+		adapter.insert(new BasketRow("3", "Vöslauer Mineralwasser", BigInteger.ONE, 40.0), 0);
 		updateTotal();
 		// Test bezüglich verhalten der Listview
 		/*
-		 * adapter.add(new Articletest("test1",15)); adapter.add(new
-		 * Articletest("familie",15)); adapter.add(new
-		 * Articletest("gratis",30)); adapter.add(new Articletest("test2",25));
-		 * adapter.add(new Articletest("todo",15)); adapter.add(new
-		 * Articletest("test1",15)); adapter.add(new Articletest("familie",15));
-		 * adapter.add(new Articletest("gratis",30)); adapter.add(new
-		 * Articletest("test2",25)); adapter.add(new Articletest("todo",15));
+		 * adapter.add(new BasketRow("test1",15)); adapter.add(new
+		 * BasketRow("familie",15)); adapter.add(new
+		 * BasketRow("gratis",30)); adapter.add(new BasketRow("test2",25));
+		 * adapter.add(new BasketRow("todo",15)); adapter.add(new
+		 * BasketRow("test1",15)); adapter.add(new BasketRow("familie",15));
+		 * adapter.add(new BasketRow("gratis",30)); adapter.add(new
+		 * BasketRow("test2",25)); adapter.add(new BasketRow("todo",15));
 		 */
 		// adapter.remove(testarticle);
 	};
 
 	public void removeArticleHandler(View v) {
-		Articletest itemToRemove = (Articletest) v.getTag();
+		BasketRow itemToRemove = (BasketRow) v.getTag();
 		adapter.remove(itemToRemove);
 		updateTotal();
 	}
@@ -136,13 +176,12 @@ public class Basket_Overview extends Activity {
 	public void decreaseAmount(View v) {
 		// Furchtbare Lösung !!!
 		// Achtung bei 0
-		Articletest item = (Articletest) v.getTag();
+		BasketRow item = (BasketRow) v.getTag();
 		int pos = adapter.getPosition(item);
 		
 		adapter.remove(item);
-		int wert = item.getQuantity() - 1;
-		if (wert <= 0) {
-
+		BigInteger wert = item.getQuantity().subtract(BigInteger.ONE);
+		if (wert.compareTo(BigInteger.ZERO) <= 0) {
 			// do_nothing
 		} else {
 			item.setQuantity(wert);
@@ -153,11 +192,10 @@ public class Basket_Overview extends Activity {
 
 	public void increaseAmount(View v) {
 		// Furchtbare Lösung !!!
-		Articletest item = (Articletest) v.getTag();
+		BasketRow item = (BasketRow) v.getTag();
 		int pos = adapter.getPosition(item);
 		adapter.remove(item);
-		int wert = item.getQuantity() + 1;
-		item.setQuantity(wert);
+		item.setQuantity(item.getQuantity().add(BigInteger.ONE));
 		adapter.insert(item, pos);
 		updateTotal();
 	}
@@ -223,11 +261,11 @@ public class Basket_Overview extends Activity {
 	}
 
 	public void addArticle(String barcode) {
-		// TODO: check if Article is valid and add Article
+		// TODO: check if Article is valid (ask server) and add Article
 		if (barcode == null) {
 			showDialog("Exception", "Article not found.");
 		} else {
-			Articletest newArticle = new Articletest(barcode, 14.99);
+			BasketRow newArticle = new BasketRow(barcode, "Scanned Article", BigInteger.ONE, 14.99);
 			adapter.add(newArticle);
 			updateTotal();
 			Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_SHORT)
@@ -297,7 +335,7 @@ public class Basket_Overview extends Activity {
 		double sum = 0;
 		for(int i = 0; i < adapter.getCount(); i++)
 		{
-			sum = sum + adapter.getItem(i).getValue() * adapter.getItem(i).getQuantity();
+			sum = sum + adapter.getItem(i).getPrice().doubleValue() * adapter.getItem(i).getQuantity().doubleValue();
 		}
 		sum = sum * 100;
 		sum = Math.round(sum);
@@ -306,5 +344,33 @@ public class Basket_Overview extends Activity {
 		txtTotalAmount = (TextView) findViewById(R.id.txtTotalAmount);
 		txtTotalAmount.setText(sum + " Total");
 	
-	}	
+	}
+
+	private class PerformCheckoutTask extends
+			AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected void onPreExecute() {
+			Basket_Overview.this.showProgressDialog("Performing checkout...");
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			//send meineListe
+			Basket basket = new Basket();
+			basket.setShopId(0L);
+			basket.setUserId("smartshopper");
+			basket.getRows().addAll(meineliste);
+			IBasketService service = new RemoteBasketService();
+			
+			service.putBasket(basket, "smartshopper");
+			
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void response) {
+			Basket_Overview.this.dismissProgressDialog();
+		}
+	}
 }
