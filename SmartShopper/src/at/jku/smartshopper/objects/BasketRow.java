@@ -37,10 +37,21 @@ public class BasketRow {
 
 	@JsonProperty("barcode")
     protected String barcode;
+	@JsonProperty("articleName")
+	private String articleName;
 	@JsonProperty("quantity")
     protected BigInteger quantity;
 	@JsonProperty("price")
     protected Double price;
+
+	public BasketRow(String barcode, String articleName, BigInteger quantity,
+			Double price) {
+		super();
+		this.barcode = barcode;
+		this.articleName = articleName;
+		this.quantity = quantity;
+		this.price = price;
+	}
 
     /**
      * Gets the value of the barcode property.
@@ -113,5 +124,13 @@ public class BasketRow {
     public void setPrice(Double value) {
         this.price = value;
     }
+
+	public String getArticleName() {
+		return articleName;
+	}
+
+	public void setArticleName(String articleName) {
+		this.articleName = articleName;
+	}
 
 }
