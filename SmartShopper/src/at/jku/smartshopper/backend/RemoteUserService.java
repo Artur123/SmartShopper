@@ -27,8 +27,7 @@ public class RemoteUserService implements IUserService {
 
 			RequestProvider provider = new RequestProvider();
 			HttpHeaders header = provider.getHttpHeader();
-			HttpEntity<String> requestEntity = new HttpEntity<String>(username,
-					header);
+			HttpEntity<String> requestEntity = new HttpEntity<String>(username, header);
 
 			RestTemplate restTemplate = provider.getRestTemplate();
 
@@ -37,8 +36,7 @@ public class RemoteUserService implements IUserService {
 
 			// restTemplate.get(RequestProvider.GET_USER_URL, requestEntity,
 			// urlVariables);
-			ResponseEntity<User> userEntity = restTemplate.getForEntity(
-					RequestProvider.GET_USER_URL, User.class, urlVariables);
+			ResponseEntity<User> userEntity = restTemplate.getForEntity(RequestProvider.GET_USER_URL, User.class, urlVariables);
 
 			user.setSortCode(userEntity.getBody().getSortCode());
 
