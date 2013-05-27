@@ -15,19 +15,19 @@ import at.jku.smartshopper.objects.User;
 public class RemoteUserService implements IUserService {
 
 	@Override
-	public User getUser(String username, String password) {
+	public User getUser(String username) {
 		// TODO Auto-generated method stub
 		// User u = new User();
 		// u.setUsername(username);
 		// u.setPassword(password);
 		// return u;
-		User user = new User();
 		try {
 			DisableSSLCertificateCheckUtil.disableChecks();
 
 			RequestProvider provider = new RequestProvider();
 			HttpHeaders header = provider.getHttpHeader();
-			HttpEntity<String> requestEntity = new HttpEntity<String>(username, header);
+			
+//			HttpEntity<String> requestEntity = new HttpEntity<String>(username, header);
 
 			RestTemplate restTemplate = provider.getRestTemplate();
 
@@ -37,9 +37,10 @@ public class RemoteUserService implements IUserService {
 			// restTemplate.get(RequestProvider.GET_USER_URL, requestEntity,
 			// urlVariables);
 			ResponseEntity<User> userEntity = restTemplate.getForEntity(RequestProvider.GET_USER_URL, User.class, urlVariables);
-
+			
+			User user = new User();
 			user.setSortCode(userEntity.getBody().getSortCode());
-
+			return user;
 		} catch (KeyManagementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,7 +48,7 @@ public class RemoteUserService implements IUserService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return user;
+		return null;
 
 	}
 
