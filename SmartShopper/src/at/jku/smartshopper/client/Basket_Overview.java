@@ -45,17 +45,19 @@ public class Basket_Overview extends Activity {
 	TextView txtTotalAmount;
 	private ProgressDialog progressDialog;
 	private boolean destroyed = false;
-	
-	boolean checkoutDialog_result = false;
+
+	private String username, password;
+
+	private boolean checkoutDialog_result = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_basket_overview);
 
-		//this.getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-        //        Intent.FLAG_ACTIVITY_NEW_TASK);
-		
+		// this.getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+		// Intent.FLAG_ACTIVITY_NEW_TASK);
+
 		meineliste = new ArrayList<BasketRow>();
 		setup();
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
@@ -66,18 +68,25 @@ public class Basket_Overview extends Activity {
 				scanArticle();
 			}
 		});
-		
+
 		btnCheckout = (Button) findViewById(R.id.btnCheckout);
 		btnCheckout.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				//TODO scan qr code before
-//				scanQR_Code();
+				// TODO: move PerformCheckoutTask to checkout method
+				// scanQR_Code();
 				PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
 				performCheckoutTask.execute();
 			}
 		});
+
+		// Login data
+		username = getIntent().getExtras().getString("username");
+		password = getIntent().getExtras().getString("password");
+
+		Toast.makeText(this, username + " + " + password, Toast.LENGTH_SHORT)
+				.show();
 	}
 
 	@Override
@@ -96,20 +105,23 @@ public class Basket_Overview extends Activity {
 		case R.id.menu_stats:
 			showStatistics();
 			return true;
-		case R.id.about:
+		case R.id.menu_about:
 			showAbout();
 			return true;
+		case R.id.menu_close:
+			closeApp();
+		case R.id.menu_logout:
+			showLogoutDialog();
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		this.destroyed = true;
 	}
-
 
 	public void showProgressDialog(CharSequence message) {
 		if (this.progressDialog == null) {
@@ -132,12 +144,12 @@ public class Basket_Overview extends Activity {
 				at.jku.smartshopper.client.Show_Statistics.class);
 
 		startActivity(intent);
-		
+
 	}
 
 	private void showAbout() {
 		final Intent intent = new Intent(this,
-				at.jku.smartshopper.client.About.class); 
+				at.jku.smartshopper.client.About.class);
 
 		startActivity(intent);
 	}
@@ -148,21 +160,25 @@ public class Basket_Overview extends Activity {
 		ListView articleListview = (ListView) findViewById(R.id.Basket_articleList);
 		articleListview.setAdapter(adapter);
 
-		BasketRow testarticle = new BasketRow("0", "Haribo ", BigInteger.ONE, 1.0);
+		BasketRow testarticle = new BasketRow("0", "Haribo ", BigInteger.ONE,
+				1.0);
 		adapter.add(testarticle);
-		adapter.add(new BasketRow("1", "Merci Tafel Nugat", BigInteger.ONE, 15.0));
-		adapter.insert(new BasketRow("2", "Kinder Pinguin", BigInteger.ONE, 30.99), 0);
-		adapter.insert(new BasketRow("3", "Vöslauer Mineralwasser", BigInteger.ONE, 40.0), 0);
+		adapter.add(new BasketRow("1", "Merci Tafel Nugat", BigInteger.ONE,
+				15.0));
+		adapter.insert(new BasketRow("2", "Kinder Pinguin", BigInteger.ONE,
+				30.99), 0);
+		adapter.insert(new BasketRow("3", "Vöslauer Mineralwasser",
+				BigInteger.ONE, 40.0), 0);
 		updateTotal();
 		// Test bezüglich verhalten der Listview
 		/*
 		 * adapter.add(new BasketRow("test1",15)); adapter.add(new
-		 * BasketRow("familie",15)); adapter.add(new
+		 * BasketRow("familie",15)); adapter.add(new BasketRow("gratis",30));
+		 * adapter.add(new BasketRow("test2",25)); adapter.add(new
+		 * BasketRow("todo",15)); adapter.add(new BasketRow("test1",15));
+		 * adapter.add(new BasketRow("familie",15)); adapter.add(new
 		 * BasketRow("gratis",30)); adapter.add(new BasketRow("test2",25));
-		 * adapter.add(new BasketRow("todo",15)); adapter.add(new
-		 * BasketRow("test1",15)); adapter.add(new BasketRow("familie",15));
-		 * adapter.add(new BasketRow("gratis",30)); adapter.add(new
-		 * BasketRow("test2",25)); adapter.add(new BasketRow("todo",15));
+		 * adapter.add(new BasketRow("todo",15));
 		 */
 		// adapter.remove(testarticle);
 	};
@@ -178,7 +194,7 @@ public class Basket_Overview extends Activity {
 		// Achtung bei 0
 		BasketRow item = (BasketRow) v.getTag();
 		int pos = adapter.getPosition(item);
-		
+
 		adapter.remove(item);
 		BigInteger wert = item.getQuantity().subtract(BigInteger.ONE);
 		if (wert.compareTo(BigInteger.ZERO) <= 0) {
@@ -204,7 +220,10 @@ public class Basket_Overview extends Activity {
 		IntentIntegrator integrator = new IntentIntegrator(Basket_Overview.this);
 		integrator.initiateScan();
 	}
-	
+
+	/**
+	 * Shows checkout dialog and scans qr code from supermarket
+	 */
 	public void scanQR_Code() {
 		AlertDialog.Builder checkoutDialog = new AlertDialog.Builder(this);
 
@@ -216,10 +235,11 @@ public class Basket_Overview extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// OK Button
-						//set QR Result and start scan
-						checkoutDialog_result  = true;
-						IntentIntegrator integrator = new IntentIntegrator(Basket_Overview.this);
-						//integrator.setMessage("Place the QR-code inside the viewfinder rectangle to checkout.");
+						// set QR Result and start scan
+						checkoutDialog_result = true;
+						IntentIntegrator integrator = new IntentIntegrator(
+								Basket_Overview.this);
+						// integrator.setMessage("Place the QR-code inside the viewfinder rectangle to checkout.");
 						integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
 					}
 				});
@@ -229,7 +249,7 @@ public class Basket_Overview extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						//set dialog result and dismiss
+						// set dialog result and dismiss
 						dialog.dismiss();
 						checkoutDialog_result = false;
 					}
@@ -237,27 +257,31 @@ public class Basket_Overview extends Activity {
 		checkoutDialog.show();
 	}
 
+	/**
+	 * gets the scan results and adds article to basket or continues to checkout
+	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(
 				requestCode, resultCode, intent);
 		if (scanResult.getContents() != null) {
 			// handle scan result
 			String code = scanResult.getContents();
-			if((scanResult.getFormatName().equals("QR_CODE")) && checkoutDialog_result)
-			{
-				//TODO
+			if ((scanResult.getFormatName().equals("QR_CODE"))
+					&& checkoutDialog_result) {
+				// TODO
 				checkout();
-			}else{
+			} else {
 				addArticle(code);
 			}
 		} else {
 			checkoutDialog_result = false;
 		}
 	}
-	
-	public void checkout(){
-		//TODO
-		Toast.makeText(this, txtTotalAmount.getText(), Toast.LENGTH_SHORT).show();
+
+	public void checkout() {
+		// TODO
+		Toast.makeText(this, txtTotalAmount.getText(), Toast.LENGTH_SHORT)
+				.show();
 	}
 
 	public void addArticle(String barcode) {
@@ -265,12 +289,35 @@ public class Basket_Overview extends Activity {
 		if (barcode == null) {
 			showDialog("Exception", "Article not found.");
 		} else {
-			BasketRow newArticle = new BasketRow(barcode, "Scanned Article", BigInteger.ONE, 14.99);
+			BasketRow newArticle = new BasketRow(barcode, "Scanned Article",
+					BigInteger.ONE, 14.99);
 			adapter.add(newArticle);
 			updateTotal();
 			Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_SHORT)
 					.show();
 		}
+	}
+
+	/**
+	 * Displays an alertDialog with one 'OK' Button
+	 * 
+	 * @param title
+	 * @param message
+	 */
+	private void showDialog(String title, String message) {
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+		alertDialog.setTitle(title);
+		alertDialog.setMessage(message);
+		alertDialog.setCancelable(true);
+		alertDialog.setNeutralButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+		alertDialog.show();
 	}
 
 	private void enterBarcode() {
@@ -300,7 +347,11 @@ public class Basket_Overview extends Activity {
 						dialog.dismiss();
 					}
 				});
-		enterBarcode.show().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		enterBarcode
+				.show()
+				.getWindow()
+				.setSoftInputMode(
+						WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 	}
 
 	@Override
@@ -308,18 +359,44 @@ public class Basket_Overview extends Activity {
 		super.onConfigurationChanged(newConfig);
 	}
 
+	public void updateTotal() {
+		double sum = 0;
+		for (int i = 0; i < adapter.getCount(); i++) {
+			sum = sum + adapter.getItem(i).getPrice().doubleValue()
+					* adapter.getItem(i).getQuantity().doubleValue();
+		}
+		sum = sum * 100;
+		sum = Math.round(sum);
+		sum = sum / 100;
+
+		txtTotalAmount = (TextView) findViewById(R.id.txtTotalAmount);
+		txtTotalAmount.setText(sum + " Total");
+
+	}
+
+	@Override
+	public void onBackPressed() {
+		moveTaskToBack(true);
+	}
+
 	/**
-	 * Displays an alertDialog with one 'OK' Button
-	 * 
-	 * @param title
-	 * @param message
+	 * Asks the user and then closes the application
 	 */
-	private void showDialog(String title, String message) {
-		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-		alertDialog.setTitle(title);
-		alertDialog.setMessage(message);
-		alertDialog.setCancelable(true);
-		alertDialog.setNeutralButton("OK",
+	private void closeApp() {
+		AlertDialog.Builder closeDialog = new AlertDialog.Builder(this);
+
+		closeDialog.setTitle("Close smartshopper?");
+
+		closeDialog.setNegativeButton("Close",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+					}
+				});
+
+		closeDialog.setPositiveButton("Continue Shopping",
 				new DialogInterface.OnClickListener() {
 
 					@Override
@@ -327,27 +404,44 @@ public class Basket_Overview extends Activity {
 						dialog.dismiss();
 					}
 				});
-		alertDialog.show();
-	}
-	
-	public void updateTotal()
-	{
-		double sum = 0;
-		for(int i = 0; i < adapter.getCount(); i++)
-		{
-			sum = sum + adapter.getItem(i).getPrice().doubleValue() * adapter.getItem(i).getQuantity().doubleValue();
-		}
-		sum = sum * 100;
-		sum = Math.round(sum);
-		sum = sum / 100;
-				
-		txtTotalAmount = (TextView) findViewById(R.id.txtTotalAmount);
-		txtTotalAmount.setText(sum + " Total");
-	
+
+		closeDialog.show();
 	}
 
-	private class PerformCheckoutTask extends
-			AsyncTask<Void, Void, Void> {
+	private void showLogoutDialog(){
+		AlertDialog.Builder logoutDialog = new AlertDialog.Builder(this);
+
+		logoutDialog.setTitle("Logout and discard basket?");
+		
+		logoutDialog.setNegativeButton("Logout", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {				
+				logout();
+			}
+		});
+		
+		logoutDialog.setPositiveButton("Continue Shopping", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		
+		logoutDialog.show();
+	}
+	
+	/**
+	 * returns to the login screen(=logout)
+	 */
+	private void logout(){
+		final Intent intent = new Intent(this,
+				at.jku.smartshopper.client.Login.class);
+		finish();
+		startActivity(intent);
+	}
+
+	private class PerformCheckoutTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected void onPreExecute() {
@@ -356,15 +450,15 @@ public class Basket_Overview extends Activity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			//send meineListe
+			// send meineListe
 			Basket basket = new Basket();
 			basket.setShopId(0L);
 			basket.setUserId("smartshopper");
 			basket.getRows().addAll(meineliste);
 			IBasketService service = new RemoteBasketService();
-			
+
 			service.putBasket(basket, "smartshopper");
-			
+
 			return null;
 		}
 
@@ -372,5 +466,6 @@ public class Basket_Overview extends Activity {
 		protected void onPostExecute(Void response) {
 			Basket_Overview.this.dismissProgressDialog();
 		}
+
 	}
 }

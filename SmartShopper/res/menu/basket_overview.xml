@@ -1,5 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/menu_enter_barcode" android:title="Enter Barcode"></item>
-    <item android:id="@+id/menu_stats" android:title="Statistics"></item>
-    <item android:id="@+id/about" android:title="About"></item>
+    <item android:id="@+id/menu_enter_barcode" android:title="@string/enter_barcode"></item>
+    <item android:id="@+id/menu_stats" android:title="@string/title_activity_statistics"></item>
+    <item android:id="@+id/menu_about" android:title="@string/title_activity_about"></item>
+    <item android:id="@+id/menu_logout" android:title="@string/logout"></item><item android:id="@+id/menu_close" android:title="@string/close"></item>
+    
 </menu>

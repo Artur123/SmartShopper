@@ -1,9 +1,9 @@
 package at.jku.smartshopper.backend;
 
-import at.jku.smartshopper.objects.Article;
+import at.jku.smartshopper.objects.User;
 
 public interface IUserService {
 	
-	public Article getUser(String username, String password);
+	public User getUser(String username, String password);
 
 }

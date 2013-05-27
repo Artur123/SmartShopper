@@ -29,7 +29,7 @@
             android:layout_alignBaseline="@+id/btnScanArticle"
             android:layout_alignBottom="@+id/btnScanArticle"
             android:layout_alignParentRight="true"
-            android:text="Checkout" />
+            android:text="@string/checkout" />
 
         <Button
             android:id="@+id/btnScanArticle"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:text="Scan Article" />
+            android:text="@string/scanArticle" />
 
         <TextView
             android:id="@+id/txtTotalAmount"
@@ -47,7 +47,7 @@
             android:layout_alignParentTop="true"
             android:textSize="24dp"
             android:gravity="right"
-            android:text="Scan Article" />
+            android:text="Total" />
 
     </RelativeLayout>
 
