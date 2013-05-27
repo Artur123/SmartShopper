@@ -101,7 +101,7 @@ public class Login extends Activity {
 			IUserService service = new RemoteUserService();
 
 			user = service.getUser(username, password);
-
+//			user = new User();
 			return null;
 		}
 
@@ -110,7 +110,7 @@ public class Login extends Activity {
 			Login.this.dismissProgressDialog();
 			//TODO: check if exceptions?
 			if (user != null) {
-				startShopping();
+				startShopping(); 
 			}
 
 		}
