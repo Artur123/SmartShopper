@@ -33,6 +33,7 @@ import at.jku.smartshopper.backend.RemoteBasketService;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
 import at.jku.smartshopper.objects.Basket;
 import at.jku.smartshopper.objects.BasketRow;
+import at.jku.smartshopper.objects.UserInstance;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
 
@@ -46,7 +47,7 @@ public class Basket_Overview extends Activity {
 	private ProgressDialog progressDialog;
 	private boolean destroyed = false;
 
-	private String username, password;
+	//private String username, password;
 
 	private boolean checkoutDialog_result = false;
 
@@ -82,10 +83,10 @@ public class Basket_Overview extends Activity {
 		});
 
 		// Login data
-		username = getIntent().getExtras().getString("username");
-		password = getIntent().getExtras().getString("password");
+//		username = getIntent().getExtras().getString("username");
+//		password = getIntent().getExtras().getString("password");
 
-		Toast.makeText(this, username + " + " + password, Toast.LENGTH_SHORT)
+		Toast.makeText(this, UserInstance.getInstance(this).getUsername() + " + " + UserInstance.getInstance(this).getPassword(), Toast.LENGTH_SHORT)
 				.show();
 	}
 

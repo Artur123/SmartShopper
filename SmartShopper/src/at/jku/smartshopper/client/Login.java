@@ -11,6 +11,7 @@ import android.widget.EditText;
 import at.jku.smartshopper.backend.IUserService;
 import at.jku.smartshopper.backend.RemoteUserService;
 import at.jku.smartshopper.objects.User;
+import at.jku.smartshopper.objects.UserInstance;
 
 public class Login extends Activity {
 
@@ -31,6 +32,7 @@ public class Login extends Activity {
 		setContentView(R.layout.activity_login);
 
 		txtUsername = (EditText) findViewById(R.id.txtUsername);
+		
 		txtPassword = (EditText) findViewById(R.id.txtPassword);
 
 		btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -41,7 +43,7 @@ public class Login extends Activity {
 				// TODO Auto-generated method stub
 				username = txtUsername.getText().toString();
 				password = txtPassword.getText().toString();
-
+				
 				PerformLoginTask performLoginTask = new PerformLoginTask();
 				performLoginTask.execute();
 
@@ -60,8 +62,8 @@ public class Login extends Activity {
 		final Intent intent = new Intent(this,
 				at.jku.smartshopper.client.Basket_Overview.class);
 
-		intent.putExtra("username", user.getUsername());
-		intent.putExtra("password", user.getPassword());
+//		intent.putExtra("username", user.getUsername());
+//		intent.putExtra("password", user.getPassword());
 		
 		startActivity(intent);
 	}
@@ -110,6 +112,7 @@ public class Login extends Activity {
 			Login.this.dismissProgressDialog();
 			//TODO: check if exceptions?
 			if (user != null) {
+				UserInstance.setUser(user);
 				startShopping();
 			}
 
