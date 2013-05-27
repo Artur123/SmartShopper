@@ -110,8 +110,10 @@ public class Basket_Overview extends Activity {
 			return true;
 		case R.id.menu_close:
 			closeApp();
+			return true;
 		case R.id.menu_logout:
 			showLogoutDialog();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -279,7 +281,7 @@ public class Basket_Overview extends Activity {
 	}
 
 	public void checkout() {
-		// TODO
+		// TODO: start asynchronous task
 		Toast.makeText(this, txtTotalAmount.getText(), Toast.LENGTH_SHORT)
 				.show();
 	}
