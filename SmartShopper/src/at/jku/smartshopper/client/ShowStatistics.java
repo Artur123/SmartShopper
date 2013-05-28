@@ -33,8 +33,8 @@ public class ShowStatistics extends Activity {
 
 		// getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		txtBasket = (EditText)findViewById(R.id.txtBasket);
-		
+		txtBasket = (EditText) findViewById(R.id.txtBasket);
+
 		btnLatestBasket = (Button) findViewById(R.id.btnGetLatestBasket);
 		btnLatestBasket.setOnClickListener(new View.OnClickListener() {
 
@@ -72,19 +72,20 @@ public class ShowStatistics extends Activity {
 		super.onConfigurationChanged(newConfig);
 
 	}
-	
+
 	/**
 	 * shows content of latest basket in text box
 	 */
-	private void showLatestBasket(){
-		double total=0;
-		
+	private void showLatestBasket() {
+		double total = 0;
+
 		String content = "";
-		for(BasketRow b : latestBasket.getRows()){
-			total+=b.getPrice()*b.getQuantity().doubleValue();
-			content += b.getQuantity().toString() + "x " + b.getArticleName() + "; " + b.getPrice() + '\n';
+		for (BasketRow b : latestBasket.getRows()) {
+			total += b.getPrice() * b.getQuantity().doubleValue();
+			content += b.getQuantity().toString() + "x " + b.getArticleName()
+					+ "; " + b.getPrice() + '\n';
 		}
-		content+="---------\nTotal: " + total;
+		content += "---------\nTotal: " + total;
 		txtBasket.setText(content);
 	}
 
@@ -120,10 +121,10 @@ public class ShowStatistics extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			IBasketService service = new RemoteBasketService();
-			
-			//TODO: remove Basket parameter?
-			latestBasket = service.getLatestBasket(new Basket(), UserInstance
-					.getInstance().getUsername());
+
+			// TODO: remove Basket parameter?
+			latestBasket = service.getLatestBasket(UserInstance.getInstance()
+					.getUsername());
 
 			return null;
 		}
@@ -132,10 +133,10 @@ public class ShowStatistics extends Activity {
 		protected void onPostExecute(Void response) {
 			ShowStatistics.this.dismissProgressDialog();
 			// TODO: check if exceptions?
-			if(latestBasket != null)
+			if (latestBasket != null)
 				showLatestBasket();
 		}
 
 	}
-	
+
 }

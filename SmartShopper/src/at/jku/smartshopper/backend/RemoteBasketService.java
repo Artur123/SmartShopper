@@ -108,7 +108,7 @@ public class RemoteBasketService implements IBasketService {
 	}
 
 	@Override
-	public Basket getLatestBasket(Basket basket, String username) {
+	public Basket getLatestBasket(String username) {
 		// TODO Auto-generated method stub
 		Basket b = new Basket();
 		BasketRow br = new BasketRow("123456789", "Römerquelle 0,5l", new BigInteger("3"), 10.99);
