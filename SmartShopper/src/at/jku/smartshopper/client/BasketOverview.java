@@ -52,6 +52,7 @@ public class BasketOverview extends Activity {
 
 	//private String username, password;
 
+	//set true when user clicked OK on checkout dialog
 	private boolean checkoutDialogResult = false;
 
 	@Override
@@ -79,7 +80,7 @@ public class BasketOverview extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO: move PerformCheckoutTask to checkout method
-				// scanQR_Code();
+				//scanQRCode();
 				PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
 				performCheckoutTask.execute();
 			}
@@ -182,8 +183,6 @@ public class BasketOverview extends Activity {
 	}
 
 	public void decreaseAmount(View v) {
-		// Furchtbare Lösung !!!
-		// Achtung bei 0
 		BasketRow item = (BasketRow) v.getTag();
 		int pos = adapter.getPosition(item);
 
@@ -199,7 +198,6 @@ public class BasketOverview extends Activity {
 	}
 
 	public void increaseAmount(View v) {
-		// Furchtbare Lösung !!!
 		BasketRow item = (BasketRow) v.getTag();
 		int pos = adapter.getPosition(item);
 		adapter.remove(item);
@@ -214,7 +212,7 @@ public class BasketOverview extends Activity {
 	}
 
 	/**
-	 * Shows checkout dialog and scans qr code from supermarket
+	 * Shows checkout dialog and starts qr code scanner for supermarket id
 	 */
 	public void scanQRCode() {
 		AlertDialog.Builder checkoutDialog = new AlertDialog.Builder(this);
@@ -260,10 +258,10 @@ public class BasketOverview extends Activity {
 			String code = scanResult.getContents();
 			if ((scanResult.getFormatName().equals("QR_CODE"))
 					&& checkoutDialogResult) {
-				// TODO
+				//TODO: check if valid supermarket id
 				checkout();
 			} else {
-				addArticle(code);
+				fetchArticle(code);
 			}
 		} else {
 			checkoutDialogResult = false;
@@ -274,9 +272,16 @@ public class BasketOverview extends Activity {
 		// TODO: start asynchronous task
 		Toast.makeText(this, txtTotalAmount.getText(), Toast.LENGTH_SHORT)
 				.show();
+		
+		//PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
+		//performCheckoutTask.execute();
 	}
 
-	public void addArticle(String barcode) {
+	/**
+	 * Starts task to get article from database
+	 * @param barcode
+	 */
+	public void fetchArticle(String barcode) {
 		// TODO: check if Article is valid (ask server) and add Article
 		if (barcode == null) {
 			showDialog("Exception", "Article not found.");
@@ -287,6 +292,11 @@ public class BasketOverview extends Activity {
 			performGetArticleTask.execute();
 		}
 	}
+	
+	/**
+	 * Adds article to basket
+	 * @param article
+	 */
 	public void addArticle(Article article) {
 		BasketRow newArticle = new BasketRow(article.getBarcode(), article.getName(), BigInteger.ONE, article.getPrice());
 		adapter.add(newArticle);
@@ -330,7 +340,7 @@ public class BasketOverview extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// OK Button
-						addArticle(input.getText().toString());
+						fetchArticle(input.getText().toString());
 					}
 				});
 
@@ -445,6 +455,7 @@ public class BasketOverview extends Activity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
+			//TODO: replace "smartshopper", add shopID from scan
 			// send meineListe
 			Basket basket = new Basket();
 			basket.setShopId(0L);
@@ -492,7 +503,7 @@ public class BasketOverview extends Activity {
 			if (article != null) {
 				addArticle(article); 
 			}else{
-				showDialog("Article failed", "Please try again.");
+				showDialog("Article not found", "Please try again.");
 			}
 		}
 		

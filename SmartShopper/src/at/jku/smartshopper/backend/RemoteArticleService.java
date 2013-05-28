@@ -15,6 +15,12 @@ public class RemoteArticleService implements IArticleService {
 
 	@Override
 	public Article getArticleById(String barcode) {
+		
+//		Article art = new Article();
+//		art.setBarcode("123456");
+//		art.setName("Binder 44/21");
+//		art.setPrice(12.33);
+//		return art;
 		try {
 			DisableSSLCertificateCheckUtil.disableChecks();
 
