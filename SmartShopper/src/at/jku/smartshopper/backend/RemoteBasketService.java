@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import android.util.Log;
@@ -113,41 +114,22 @@ public class RemoteBasketService implements IBasketService {
 
 	@Override
 	public Basket getLatestBasket() {
-		// TODO Auto-generated method stub
-//		Basket b = new Basket();
-//		BasketRow br = new BasketRow("123456789", "Römerquelle 0,5l", new BigInteger("3"), 10.99);
-//		b.getRows().add(br);
-//		b.getRows().add(br);
-//		b.getRows().add(br);
-//		b.getRows().add(br);
-//		b.getRows().add(br);
-//		return b;
 		try {
 			DisableSSLCertificateCheckUtil.disableChecks();
 
 			RequestProvider provider = new RequestProvider();
 			HttpHeaders header = provider.getHttpHeader();
 
-			// HttpEntity<String> requestEntity = new
-			// HttpEntity<String>(username, header);
-
 			RestTemplate restTemplate = provider.getRestTemplate();
 
 			Map<String, Object> urlVariables = new HashMap<String, Object>();
 			urlVariables.put("username", UserInstance.getInstance().getUsername());
 
-			ResponseEntity<Basket> basketEntity = restTemplate
-					.getForEntity(RequestProvider.GET_LATEST_BASKET_URL,
-							Basket.class, urlVariables);
+			ResponseEntity<Basket> basketEntity = restTemplate.getForEntity(RequestProvider.GET_LATEST_BASKET_URL,
+					Basket.class, urlVariables);
 
-			Basket basket = new Basket();
+			Basket basket;
 			basket = basketEntity.getBody();
-//			basket.setShopId(basketEntity.getBody().getShopId());
-//			basket.setUserId(basketEntity.getBody().getUserId());
-//			
-//			for(BasketRow b : basketEntity.getBody().getRows()){
-//				basket.getRows().add(new BasketRow(b.getBarcode(), b.getArticleName(), b.getQuantity(), b.getPrice()));
-//			}
 			return basket;
 		} catch (KeyManagementException e) {
 			// TODO Auto-generated catch block
@@ -155,7 +137,7 @@ public class RemoteBasketService implements IBasketService {
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		return null;
 	}
 

@@ -43,6 +43,10 @@ public class BasketRow {
 	private String name;
 	@JsonProperty("price")
     protected Double price;
+	
+	public BasketRow() {
+		super();
+	}
 
 	public BasketRow(String barcode, BigInteger quantity, String name, Double price) {
 		super();
