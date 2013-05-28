@@ -171,17 +171,6 @@ public class Basket_Overview extends Activity {
 		adapter.insert(new BasketRow("3", "Vöslauer Mineralwasser",
 				BigInteger.ONE, 40.0), 0);
 		updateTotal();
-		// Test bezüglich verhalten der Listview
-		/*
-		 * adapter.add(new BasketRow("test1",15)); adapter.add(new
-		 * BasketRow("familie",15)); adapter.add(new BasketRow("gratis",30));
-		 * adapter.add(new BasketRow("test2",25)); adapter.add(new
-		 * BasketRow("todo",15)); adapter.add(new BasketRow("test1",15));
-		 * adapter.add(new BasketRow("familie",15)); adapter.add(new
-		 * BasketRow("gratis",30)); adapter.add(new BasketRow("test2",25));
-		 * adapter.add(new BasketRow("todo",15));
-		 */
-		// adapter.remove(testarticle);
 	};
 
 	public void removeArticleHandler(View v) {
@@ -290,6 +279,7 @@ public class Basket_Overview extends Activity {
 		if (barcode == null) {
 			showDialog("Exception", "Article not found.");
 		} else {
+			
 			BasketRow newArticle = new BasketRow(barcode, "Scanned Article",
 					BigInteger.ONE, 14.99);
 			adapter.add(newArticle);
