@@ -15,5 +15,6 @@
     <string name="close">Close</string>
     <string name="logout">Logout</string>
     <string name="getLatestBasket">Latest basket</string>
+    <string name="checkout_title">Thank you!</string>
 
 </resources>

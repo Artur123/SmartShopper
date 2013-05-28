@@ -441,6 +441,14 @@ public class BasketOverview extends Activity {
 		finish();
 		startActivity(intent);
 	}
+	
+	private void finishShopping(){
+		final Intent intent = new Intent(this,
+				at.jku.smartshopper.client.Checkout.class);
+		intent.putExtra("total", txtTotalAmount.getText());
+		finish();
+		startActivity(intent);
+	}
 
 	private class PerformCheckoutTask extends AsyncTask<Void, Void, Void> {
 
@@ -467,6 +475,7 @@ public class BasketOverview extends Activity {
 		@Override
 		protected void onPostExecute(Void response) {
 			BasketOverview.this.dismissProgressDialog();
+			finishShopping();
 		}
 
 	}
