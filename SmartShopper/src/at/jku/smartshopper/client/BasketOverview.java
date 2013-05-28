@@ -30,12 +30,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import at.jku.smartshopper.backend.IArticleService;
 import at.jku.smartshopper.backend.IBasketService;
+import at.jku.smartshopper.backend.IShopService;
 import at.jku.smartshopper.backend.RemoteArticleService;
 import at.jku.smartshopper.backend.RemoteBasketService;
+import at.jku.smartshopper.backend.RemoteShopService;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
 import at.jku.smartshopper.objects.Article;
 import at.jku.smartshopper.objects.Basket;
 import at.jku.smartshopper.objects.BasketRow;
+import at.jku.smartshopper.objects.Shop;
 import at.jku.smartshopper.objects.UserInstance;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
@@ -54,6 +57,9 @@ public class BasketOverview extends Activity {
 
 	//set true when user clicked OK on checkout dialog
 	private boolean checkoutDialogResult = false;
+	
+	private long shopID;
+	private Shop shop=null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +86,9 @@ public class BasketOverview extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO: move PerformCheckoutTask to checkout method
-				//scanQRCode();
-				PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
-				performCheckoutTask.execute();
+				scanQRCode();
+				//PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
+				//performCheckoutTask.execute();
 			}
 		});
 	}
@@ -255,7 +261,15 @@ public class BasketOverview extends Activity {
 			if ((scanResult.getFormatName().equals("QR_CODE"))
 					&& checkoutDialogResult) {
 				//TODO: check if valid supermarket id
-				checkout();
+				try{
+					shopID=Long.valueOf(code);
+					//check shop id
+					PerformGetShopTask performGetShopTask = new PerformGetShopTask();
+					performGetShopTask.execute();
+				}catch(NumberFormatException e){
+					checkoutDialogResult = false;
+					showDialog("Checkout error", "Scanned QR code is no shop identifier.");
+				}
 			} else {
 				fetchArticle(code);
 			}
@@ -266,11 +280,11 @@ public class BasketOverview extends Activity {
 
 	public void checkout() {
 		// TODO: start asynchronous task
-		Toast.makeText(this, txtTotalAmount.getText(), Toast.LENGTH_SHORT)
-				.show();
+		//Toast.makeText(this, txtTotalAmount.getText(), Toast.LENGTH_SHORT)
+		//		.show();
 		
-		//PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
-		//performCheckoutTask.execute();
+		PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
+		performCheckoutTask.execute();
 	}
 
 	/**
@@ -282,8 +296,6 @@ public class BasketOverview extends Activity {
 		if (barcode == null) {
 			showDialog("Exception", "Article not found.");
 		} else {
-			
-			
 			PerformGetArticleTask performGetArticleTask = new PerformGetArticleTask(barcode);
 			performGetArticleTask.execute();
 		}
@@ -462,7 +474,7 @@ public class BasketOverview extends Activity {
 			//TODO: replace "smartshopper", add shopID from scan
 			// send meineListe
 			Basket basket = new Basket();
-			basket.setShopId(0L);
+			basket.setShopId(shop.getShopId());
 			basket.setUserId("smartshopper");
 			basket.getRows().addAll(meineliste);
 			IBasketService service = new RemoteBasketService();
@@ -512,5 +524,30 @@ public class BasketOverview extends Activity {
 			}
 		}
 		
+	}
+
+	private class PerformGetShopTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected void onPreExecute() {
+			BasketOverview.this.showProgressDialog("Getting shop info...");
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			IShopService service = new RemoteShopService();
+			shop = service.getShop(shopID);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void response) {
+			BasketOverview.this.dismissProgressDialog();
+			if(shop!=null){
+				checkout();
+			}else{
+				showDialog("Checkout error", "No shop found for scanned QR code.");
+			}
+		}
 	}
 }

@@ -14,18 +14,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="76dp"
-        android:text="Smartshopper was developed by:\nKatharina Kaiser\nManuel Hochreiter\nMichael Weichselbaumer\n" />
+        android:layout_marginTop="20dp"
+        android:text="Smartshopper was developed by:\n\t-Katharina Kaiser\n\t-Manuel Hochreiter\n\t-Michael Weichselbaumer\n" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="106dp"
+        android:layout_marginTop="17dp"
         android:autoLink="web"
         android:clickable="true"
+        android:gravity="center"
         android:text="Johannes Kepler University\nAltenbergerstraße 69\n4040 Linz\nAustria\nhttp://www.jku.at" />
 
 </RelativeLayout>

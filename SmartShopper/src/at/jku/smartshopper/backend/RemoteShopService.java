@@ -16,7 +16,10 @@ public class RemoteShopService implements IShopService{
 
 	@Override
 	public Shop getShop(Long shopId) {
-		// TODO Auto-generated method stub
+//		if(shopId == 1234)
+//			return new Shop();
+//		else
+//			return null;
 		try {
 			DisableSSLCertificateCheckUtil.disableChecks();
 			
