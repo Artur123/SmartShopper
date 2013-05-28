@@ -14,5 +14,6 @@
     <string name="enter_barcode">Enter Barcode</string>
     <string name="close">Close</string>
     <string name="logout">Logout</string>
+    <string name="getLatestBasket">Latest basket</string>
 
 </resources>

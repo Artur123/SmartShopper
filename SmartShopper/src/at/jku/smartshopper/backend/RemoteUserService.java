@@ -19,7 +19,7 @@ public class RemoteUserService implements IUserService {
 		// TODO Auto-generated method stub
 //		 User u = new User();
 //		 u.setUsername(username);
-//		 u.setPassword("bla");
+//		 u.setPassword("");
 //		 return u;
 		try {
 			DisableSSLCertificateCheckUtil.disableChecks();

@@ -84,7 +84,7 @@ public class BasketOverview extends Activity {
 		});
 
 		// Login data
-		Toast.makeText(this, UserInstance.getInstance(this).getUsername() + " + " + UserInstance.getInstance(this).getPassword(), Toast.LENGTH_SHORT)
+		Toast.makeText(this, UserInstance.getInstance().getUsername() + " + " + UserInstance.getInstance().getPassword(), Toast.LENGTH_SHORT)
 				.show();
 	}
 

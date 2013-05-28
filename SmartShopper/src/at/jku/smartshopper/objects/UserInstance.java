@@ -13,7 +13,7 @@ public class UserInstance {
 		user = u;
 	}
 
-	public static User getInstance(Context c) {
+	public static User getInstance() {
 		if (user != null) {
 			return user;
 		}else{

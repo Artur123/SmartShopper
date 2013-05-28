@@ -42,7 +42,6 @@ public class Login extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				username = txtUsername.getText().toString();
 				password = txtPassword.getText().toString();
 				
