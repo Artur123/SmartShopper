@@ -41,7 +41,8 @@ public class RemoteUserService implements IUserService {
 					RequestProvider.GET_USER_URL, User.class, urlVariables);
 
 			User user = new User();
-			user.setSortCode(userEntity.getBody().getSortCode());
+			//user.setSortCode(userEntity.getBody().getSortCode());
+			user = userEntity.getBody();
 			return user;
 		} catch (KeyManagementException e) {
 			// TODO Auto-generated catch block

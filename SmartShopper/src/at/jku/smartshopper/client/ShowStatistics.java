@@ -123,8 +123,7 @@ public class ShowStatistics extends Activity {
 			IBasketService service = new RemoteBasketService();
 
 			// TODO: remove Basket parameter?
-			latestBasket = service.getLatestBasket(UserInstance.getInstance()
-					.getUsername());
+			latestBasket = service.getLatestBasket();
 
 			return null;
 		}

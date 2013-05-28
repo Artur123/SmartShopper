@@ -463,7 +463,7 @@ public class BasketOverview extends Activity {
 			basket.getRows().addAll(meineliste);
 			IBasketService service = new RemoteBasketService();
 
-			service.putBasket(basket, "smartshopper");
+			service.putBasket(basket);
 
 			return null;
 		}

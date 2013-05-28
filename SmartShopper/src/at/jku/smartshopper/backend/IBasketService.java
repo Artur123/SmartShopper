@@ -6,9 +6,9 @@ import at.jku.smartshopper.objects.BasketList;
 
 public interface IBasketService {
 	
-	public void putBasket(Basket basket, String username);
-	public BasketList getAllBaskets(String username);
-	public Basket getLatestBasket(String username);
-	public Basket getBasketById(long timeStamp, String username);
+	public void putBasket(Basket basket);
+	public BasketList getAllBaskets();
+	public Basket getLatestBasket();
+	public Basket getBasketById(long timeStamp);
 
 }
