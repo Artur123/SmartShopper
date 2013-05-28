@@ -37,18 +37,17 @@ public class BasketRow {
 
 	@JsonProperty("barcode")
     protected String barcode;
+	@JsonProperty("quantity")
+	protected BigInteger quantity;
 	@JsonProperty("name")
 	private String name;
-	@JsonProperty("quantity")
-    protected BigInteger quantity;
 	@JsonProperty("price")
     protected Double price;
 
-	public BasketRow(String barcode, String articleName, BigInteger quantity,
-			Double price) {
+	public BasketRow(String barcode, BigInteger quantity, String name, Double price) {
 		super();
 		this.barcode = barcode;
-		this.name = articleName;
+		this.name = name;
 		this.quantity = quantity;
 		this.price = price;
 	}

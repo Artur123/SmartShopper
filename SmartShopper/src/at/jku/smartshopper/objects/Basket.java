@@ -41,6 +41,17 @@ public class Basket {
     protected String userId;
 	@JsonProperty("shopId")
     protected long shopId;
+	
+	public Basket() {
+		super();
+	}
+	
+	public Basket(List<BasketRow> rows, String userId, long shopId) {
+		super();
+		this.rows =  rows;
+		this.userId = userId;
+		this.shopId = shopId;
+	}
 
     /**
      * Gets the value of the rows property.
@@ -71,7 +82,11 @@ public class Basket {
         return this.rows;
     }
 
-    /**
+    public void setRows(List<BasketRow> rows) {
+		this.rows = rows;
+	}
+
+	/**
      * Gets the value of the userId property.
      * 
      * @return
