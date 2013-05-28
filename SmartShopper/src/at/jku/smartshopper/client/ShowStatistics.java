@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class Show_Statistics extends Activity{
+public class ShowStatistics extends Activity{
 
 	Button btnClose;
 	
@@ -43,7 +43,7 @@ public class Show_Statistics extends Activity{
 	}
 	
 	private void backToBasket(){
-		Intent parentActivityIntent = new Intent(this, Basket_Overview.class);
+		Intent parentActivityIntent = new Intent(this, BasketOverview.class);
         parentActivityIntent.addFlags(
                 Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
         startActivity(parentActivityIntent);

@@ -62,7 +62,7 @@ public class Login extends Activity {
 	 */
 	private void startShopping() {
 		final Intent intent = new Intent(this,
-				at.jku.smartshopper.client.Basket_Overview.class);
+				at.jku.smartshopper.client.BasketOverview.class);
 
 //		intent.putExtra("username", user.getUsername());
 //		intent.putExtra("password", user.getPassword());

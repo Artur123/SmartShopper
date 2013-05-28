@@ -38,7 +38,7 @@ import at.jku.smartshopper.objects.UserInstance;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
 
-public class Basket_Overview extends Activity {
+public class BasketOverview extends Activity {
 
 	List<BasketRow> meineliste;
 	ArticleListAdapter adapter;
@@ -50,7 +50,7 @@ public class Basket_Overview extends Activity {
 
 	//private String username, password;
 
-	private boolean checkoutDialog_result = false;
+	private boolean checkoutDialogResult = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +142,7 @@ public class Basket_Overview extends Activity {
 
 	private void showStatistics() {
 		final Intent intent = new Intent(this,
-				at.jku.smartshopper.client.Show_Statistics.class);
+				at.jku.smartshopper.client.ShowStatistics.class);
 
 		startActivity(intent);
 
@@ -207,14 +207,14 @@ public class Basket_Overview extends Activity {
 	}
 
 	public void scanArticle() {
-		IntentIntegrator integrator = new IntentIntegrator(Basket_Overview.this);
+		IntentIntegrator integrator = new IntentIntegrator(BasketOverview.this);
 		integrator.initiateScan();
 	}
 
 	/**
 	 * Shows checkout dialog and scans qr code from supermarket
 	 */
-	public void scanQR_Code() {
+	public void scanQRCode() {
 		AlertDialog.Builder checkoutDialog = new AlertDialog.Builder(this);
 
 		checkoutDialog.setTitle("Got everything?");
@@ -226,9 +226,9 @@ public class Basket_Overview extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						// OK Button
 						// set QR Result and start scan
-						checkoutDialog_result = true;
+						checkoutDialogResult = true;
 						IntentIntegrator integrator = new IntentIntegrator(
-								Basket_Overview.this);
+								BasketOverview.this);
 						// integrator.setMessage("Place the QR-code inside the viewfinder rectangle to checkout.");
 						integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
 					}
@@ -241,7 +241,7 @@ public class Basket_Overview extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						// set dialog result and dismiss
 						dialog.dismiss();
-						checkoutDialog_result = false;
+						checkoutDialogResult = false;
 					}
 				});
 		checkoutDialog.show();
@@ -257,14 +257,14 @@ public class Basket_Overview extends Activity {
 			// handle scan result
 			String code = scanResult.getContents();
 			if ((scanResult.getFormatName().equals("QR_CODE"))
-					&& checkoutDialog_result) {
+					&& checkoutDialogResult) {
 				// TODO
 				checkout();
 			} else {
 				addArticle(code);
 			}
 		} else {
-			checkoutDialog_result = false;
+			checkoutDialogResult = false;
 		}
 	}
 
@@ -316,7 +316,7 @@ public class Basket_Overview extends Activity {
 
 		enterBarcode.setTitle("Enter Barcode:");
 
-		final EditText input = new EditText(Basket_Overview.this);
+		final EditText input = new EditText(BasketOverview.this);
 		input.setInputType(InputType.TYPE_CLASS_NUMBER);
 		enterBarcode.setView(input);
 
@@ -436,7 +436,7 @@ public class Basket_Overview extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			Basket_Overview.this.showProgressDialog("Performing checkout...");
+			BasketOverview.this.showProgressDialog("Performing checkout...");
 		}
 
 		@Override
@@ -455,7 +455,7 @@ public class Basket_Overview extends Activity {
 
 		@Override
 		protected void onPostExecute(Void response) {
-			Basket_Overview.this.dismissProgressDialog();
+			BasketOverview.this.dismissProgressDialog();
 		}
 
 	}

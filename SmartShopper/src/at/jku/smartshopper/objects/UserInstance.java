@@ -3,7 +3,7 @@ package at.jku.smartshopper.objects;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import at.jku.smartshopper.client.Basket_Overview;
+import at.jku.smartshopper.client.BasketOverview;
 
 public class UserInstance {
 

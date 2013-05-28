@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="at.jku.smartshopper.client.Basket_Overview"
+            android:name="at.jku.smartshopper.client.BasketOverview"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name" 
 			android:launchMode="singleTask" >
@@ -26,10 +26,10 @@
             
         </activity>
         <activity
-            android:name="at.jku.smartshopper.client.Show_Statistics"
+            android:name="at.jku.smartshopper.client.ShowStatistics"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_statistics"
-            android:parentActivityName="at.jku.smartshopper.client.Basket_Overview"  >
+            android:parentActivityName="at.jku.smartshopper.client.BasketOverview"  >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.jku.smartshopper.client.Basket_Overview" />
@@ -37,7 +37,7 @@
         <activity
             android:name="at.jku.smartshopper.client.About"
             android:label="@string/title_activity_about"
-            android:parentActivityName="at.jku.smartshopper.client.Basket_Overview" >
+            android:parentActivityName="at.jku.smartshopper.client.BasketOverview" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.jku.smartshopper.client.Basket_Overview" />

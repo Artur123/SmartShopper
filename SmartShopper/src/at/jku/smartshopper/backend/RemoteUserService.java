@@ -17,10 +17,10 @@ public class RemoteUserService implements IUserService {
 	@Override
 	public User getUser(String username) {
 		// TODO Auto-generated method stub
-		// User u = new User();
-		// u.setUsername(username);
-		// u.setPassword(password);
-		// return u;
+//		 User u = new User();
+//		 u.setUsername(username);
+//		 u.setPassword("bla");
+//		 return u;
 		try {
 			DisableSSLCertificateCheckUtil.disableChecks();
 
