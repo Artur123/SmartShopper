@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/amount_decrease"
-        android:layout_width="24dp"
+        android:layout_width="28dp"
         android:layout_height="@dimen/activity_row_height"
         android:onClick="decreaseAmount"
         android:src="@drawable/decrease_amount_fat" />
@@ -21,7 +21,7 @@
 
     <ImageView
         android:id="@+id/amount_increase"
-        android:layout_width="24dp"
+        android:layout_width="28dp"
         android:layout_height="@dimen/activity_row_height"
         android:onClick="increaseAmount"
         android:src="@drawable/increase_amount_fat" />
