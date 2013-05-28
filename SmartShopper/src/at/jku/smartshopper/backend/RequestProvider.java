@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import at.jku.smartshopper.objects.UserInstance;
+
 public class RequestProvider {
 	
 	
@@ -27,21 +29,32 @@ public class RequestProvider {
 	
 	public static String GET_ARTICLE_URL = SERVICE_URL + "/article/{barcode}";
 	
+	public static String GET_SHOP_URL = SERVICE_URL + "/shop/{shopId}";
+	
 	
 //	public static String PUT_BASKET_URL = "https://192.168.30.224:50443/smartshopper.backend/basket/{username}/basket/{timestamp}/";
 //	public static String GET_ALL_BASKET_URL = "https://192.168.30.224:50443/smartshopper.backend/basket/{username}/basket/all/";
 	
 	
 	public HttpHeaders getHttpHeader() {
-//		String username = UserInstance.getUser().getUsername();
-//		String password = UserInstance.getUser().getPassword();
-		String username = "smartshopper";
-		String password = "smart";
+		String username = UserInstance.getInstance().getUsername();
+		String password = UserInstance.getInstance().getPassword();
+//		String username = "smartshopper";
+//		String password = "smart";
 		HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAuthorization(authHeader);
 		return requestHeaders;
 	}
+	
+	
+	public HttpHeaders getHttpHeader(String username, String password) {
+		HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.setAuthorization(authHeader);
+		return requestHeaders;
+	}
+
 	
 	public RestTemplate getRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate();

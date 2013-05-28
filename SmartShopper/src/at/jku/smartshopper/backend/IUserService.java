@@ -4,6 +4,6 @@ import at.jku.smartshopper.objects.User;
 
 public interface IUserService {
 	
-	public User getUser(String username);
+	public User getUser(String username, String password);
 
 }

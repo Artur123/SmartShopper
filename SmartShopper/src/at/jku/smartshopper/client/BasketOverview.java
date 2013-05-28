@@ -164,15 +164,15 @@ public class BasketOverview extends Activity {
 		ListView articleListview = (ListView) findViewById(R.id.Basket_articleList);
 		articleListview.setAdapter(adapter);
 
-		BasketRow testarticle = new BasketRow("0", "Haribo ", BigInteger.ONE,
-				1.0);
+		BasketRow testarticle = new BasketRow("90311185", "Römerquelle Prickelnd ", BigInteger.ONE,
+				1.49);
 		adapter.add(testarticle);
-		adapter.add(new BasketRow("1", "Merci Tafel Nugat", BigInteger.ONE,
-				15.0));
-		adapter.insert(new BasketRow("2", "Kinder Pinguin", BigInteger.ONE,
-				30.99), 0);
-		adapter.insert(new BasketRow("3", "Vöslauer Mineralwasser",
-				BigInteger.ONE, 40.0), 0);
+//		adapter.add(new BasketRow("1", "Merci Tafel Nugat", BigInteger.ONE,
+//				15.0));
+//		adapter.insert(new BasketRow("2", "Kinder Pinguin", BigInteger.ONE,
+//				30.99), 0);
+//		adapter.insert(new BasketRow("3", "Vöslauer Mineralwasser",
+//				BigInteger.ONE, 40.0), 0);
 		updateTotal();
 	};
 

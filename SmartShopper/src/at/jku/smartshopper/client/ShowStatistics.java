@@ -82,7 +82,7 @@ public class ShowStatistics extends Activity {
 		String content = "";
 		for (BasketRow b : latestBasket.getRows()) {
 			total += b.getPrice() * b.getQuantity().doubleValue();
-			content += b.getQuantity().toString() + "x " + b.getArticleName()
+			content += b.getQuantity().toString() + "x " + b.getName()
 					+ "; " + b.getPrice() + '\n';
 		}
 		content += "---------\nTotal: " + total;
