@@ -103,7 +103,7 @@ public class Login extends Activity {
 			// send username and password
 			IUserService service = new RemoteUserService();
 
-			user = service.getUser(username);
+			user = service.getUser(username, password);
 //			user = new User();
 			return null;
 		}

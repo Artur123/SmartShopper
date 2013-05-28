@@ -54,7 +54,7 @@ public class ArticleListAdapter extends ArrayAdapter<BasketRow> {
 	
 
 	private void setupItem(ArticlerHolder holder) {
-		holder.name.setText(holder.article.getArticleName());
+		holder.name.setText(holder.article.getName());
 		holder.value.setText(String.valueOf(holder.article.getPrice()));
 		holder.quantity.setText(String.valueOf(holder.article.getQuantity()));
 	}

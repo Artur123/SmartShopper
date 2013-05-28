@@ -48,7 +48,7 @@ public class RemoteBasketService implements IBasketService {
 			HttpEntity<Basket> requestEntity = new HttpEntity<Basket>(basket,
 					header);
 			
-			// TODO: make class/method that holds/creates server URL
+			// TODO: make class/method thaat holds/creates server URL
 			// The URL for making the GET request
 			// final String url =
 			// "https://192.168.30.224:50443/smartshopper.backend/basket/smartshopper/basket/1366223833000/";
@@ -69,6 +69,7 @@ public class RemoteBasketService implements IBasketService {
 			Map<String, Object> urlVariables = new HashMap<String, Object>();
 			urlVariables.put("username", UserInstance.getInstance().getUsername());
 			urlVariables.put("timestamp", new Date().getTime());
+			
 
 			// restTemplate.put(url, requestEntity);
 			restTemplate.put(RequestProvider.PUT_BASKET_URL, requestEntity, urlVariables);
