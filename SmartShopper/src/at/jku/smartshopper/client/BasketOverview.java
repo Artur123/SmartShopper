@@ -28,12 +28,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import at.jku.smartshopper.backend.IArticleService;
 import at.jku.smartshopper.backend.IBasketService;
+import at.jku.smartshopper.backend.RemoteArticleService;
 import at.jku.smartshopper.backend.RemoteBasketService;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
+import at.jku.smartshopper.objects.Article;
 import at.jku.smartshopper.objects.Basket;
 import at.jku.smartshopper.objects.BasketRow;
-import at.jku.smartshopper.objects.User;
 import at.jku.smartshopper.objects.UserInstance;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
@@ -280,13 +282,15 @@ public class BasketOverview extends Activity {
 			showDialog("Exception", "Article not found.");
 		} else {
 			
-			BasketRow newArticle = new BasketRow(barcode, "Scanned Article",
-					BigInteger.ONE, 14.99);
-			adapter.add(newArticle);
-			updateTotal();
-			Toast.makeText(this, "Barcode: " + barcode, Toast.LENGTH_SHORT)
-					.show();
+			
+			PerformGetArticleTask performGetArticleTask = new PerformGetArticleTask(barcode);
+			performGetArticleTask.execute();
 		}
+	}
+	public void addArticle(Article article) {
+		BasketRow newArticle = new BasketRow(article.getBarcode(), article.getName(), BigInteger.ONE, article.getPrice());
+		adapter.add(newArticle);
+		updateTotal();
 	}
 
 	/**
@@ -458,5 +462,39 @@ public class BasketOverview extends Activity {
 			BasketOverview.this.dismissProgressDialog();
 		}
 
+	}
+	
+	private class PerformGetArticleTask extends AsyncTask<Void, Void, Void> {
+		String barcode;
+		Article article;
+		
+		public PerformGetArticleTask(String barcode)
+		{
+			this.barcode = barcode;
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			BasketOverview.this.showProgressDialog("gettingArticle...");
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			IArticleService service = new RemoteArticleService();
+			article = service.getArticleById(barcode);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void response) {
+			BasketOverview.this.dismissProgressDialog();
+			//TODO: check if exceptions?
+			if (article != null) {
+				addArticle(article); 
+			}else{
+				showDialog("Article failed", "Please try again.");
+			}
+		}
+		
 	}
 }
