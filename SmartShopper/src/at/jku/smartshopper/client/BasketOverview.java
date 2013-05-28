@@ -85,10 +85,6 @@ public class BasketOverview extends Activity {
 				performCheckoutTask.execute();
 			}
 		});
-
-		// Login data
-		Toast.makeText(this, UserInstance.getInstance().getUsername() + " + " + UserInstance.getInstance().getPassword(), Toast.LENGTH_SHORT)
-				.show();
 	}
 
 	@Override
