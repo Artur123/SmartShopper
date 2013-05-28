@@ -30,6 +30,9 @@ public class RemoteBasketService implements IBasketService {
 			
 			
 			
+			
+			
+			
 			//TODO make method that creates request header that always includes authHeader using user credentials
 			// Set the username and password for creating a Basic Auth request
 			HttpAuthentication authHeader = new HttpBasicAuthentication("smartshopper", "smartshopper");
@@ -40,7 +43,7 @@ public class RemoteBasketService implements IBasketService {
 			//TODO: make class/method that holds/creates server URL
 			// The URL for making the GET request
 //			final String url = "https://192.168.30.224:50443/smartshopper.backend/basket/smartshopper/basket/1366223833000/";
-			final String url = "https://192.168.30.224:50443/smartshopper.backend/basket/{username}/basket/{timestamp}/";
+			final String url = "https://192.168.178.20:50443/smartshopper.backend/basket/{username}/basket/{timestamp}/";
 
 			// Create a new RestTemplate instance
 			RestTemplate restTemplate = new RestTemplate();

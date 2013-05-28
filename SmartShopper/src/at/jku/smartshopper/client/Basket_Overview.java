@@ -33,6 +33,7 @@ import at.jku.smartshopper.backend.RemoteBasketService;
 import at.jku.smartshopper.listitems.ArticleListAdapter;
 import at.jku.smartshopper.objects.Basket;
 import at.jku.smartshopper.objects.BasketRow;
+import at.jku.smartshopper.objects.User;
 import at.jku.smartshopper.objects.UserInstance;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
@@ -59,7 +60,7 @@ public class Basket_Overview extends Activity {
 		// this.getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
 		// Intent.FLAG_ACTIVITY_NEW_TASK);
 
-		meineliste = new ArrayList<BasketRow>();
+		meineliste = new ArrayList<BasketRow>();		
 		setup();
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
 		btnScanArt.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +84,6 @@ public class Basket_Overview extends Activity {
 		});
 
 		// Login data
-//		username = getIntent().getExtras().getString("username");
-//		password = getIntent().getExtras().getString("password");
-
 		Toast.makeText(this, UserInstance.getInstance(this).getUsername() + " + " + UserInstance.getInstance(this).getPassword(), Toast.LENGTH_SHORT)
 				.show();
 	}

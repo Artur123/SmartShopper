@@ -1,7 +1,9 @@
 package at.jku.smartshopper.client;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -103,7 +105,7 @@ public class Login extends Activity {
 			IUserService service = new RemoteUserService();
 
 			user = service.getUser(username, password);
-
+//			user = new User();
 			return null;
 		}
 
@@ -113,9 +115,31 @@ public class Login extends Activity {
 			//TODO: check if exceptions?
 			if (user != null) {
 				UserInstance.setUser(user);
-				startShopping();
+				startShopping(); 
+			}else{
+				showDialog("Login failed", "Incorrect username or password.");
 			}
-
 		}
+		
+	}
+	/**
+	 * Shows simple alert dialog
+	 * @param title
+	 * @param message
+	 */
+	private void showDialog(String title, String message){
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+		alertDialog.setTitle(title);
+		alertDialog.setMessage(message);
+		alertDialog.setCancelable(true);
+		alertDialog.setNeutralButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+		alertDialog.show();
 	}
 }
