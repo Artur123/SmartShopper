@@ -39,7 +39,6 @@ public class RemoteArticleService implements IArticleService {
 			// urlVariables);
 			ResponseEntity<Article> articleEntity = restTemplate.getForEntity(
 					RequestProvider.GET_ARTICLE_URL, Article.class, urlVariables);
-
 			Article article = new Article();
 			article.setBarcode(articleEntity.getBody().getBarcode());
 			article.setName(articleEntity.getBody().getName());

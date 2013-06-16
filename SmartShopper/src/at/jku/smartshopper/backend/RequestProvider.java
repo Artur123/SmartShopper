@@ -15,7 +15,7 @@ public class RequestProvider {
 	
 	
 	private static String PROTOCOL = "https";
-	private static String IP_ADDRESS = "25.166.49.26";
+	private static String IP_ADDRESS = "140.78.187.35";
 	private static String PORT = "50443";
 	private static String SERVICE_NAME = "smartshopper.backend";
 	

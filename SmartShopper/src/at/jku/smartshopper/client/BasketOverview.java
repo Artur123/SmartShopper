@@ -2,12 +2,7 @@ package at.jku.smartshopper.client;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,7 +13,6 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.jku.smartshopper.backend.IArticleService;
 import at.jku.smartshopper.backend.IBasketService;
 import at.jku.smartshopper.backend.IShopService;
@@ -39,43 +32,49 @@ import at.jku.smartshopper.objects.Article;
 import at.jku.smartshopper.objects.Basket;
 import at.jku.smartshopper.objects.BasketRow;
 import at.jku.smartshopper.objects.Shop;
-import at.jku.smartshopper.objects.UserInstance;
 import at.jku.smartshopper.scanner.IntentIntegrator;
 import at.jku.smartshopper.scanner.IntentResult;
 
 public class BasketOverview extends Activity {
 
+	//liste der Aktuellen Artikel
 	List<BasketRow> meineliste;
+	//Adapter zum Anzeigen der Artikel in der Übersicht
 	ArticleListAdapter adapter;
+	//Button zum Scannen eines neuen Artikels
 	Button btnScanArt;
 	Button btnCheckout;
+	//Gesamtsumme des Einkaufskorbes
 	TextView txtTotalAmount;
+	//Dialog bei Kommunikation mit dem Server
 	private ProgressDialog progressDialog;
+	//Boolean Serverkommunikation unterbrochen
 	private boolean destroyed = false;
-
-	//private String username, password;
-
 	//set true when user clicked OK on checkout dialog
 	private boolean checkoutDialogResult = false;
-	
+	//Daten des aktuellen Einkaufsshopes 
 	private long shopID;
 	private Shop shop=null;
 
+
+	/***
+	 * Anzeige bei Erstellung der BasketOverview
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_basket_overview);
 
-		// this.getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-		// Intent.FLAG_ACTIVITY_NEW_TASK);
-
-		meineliste = new ArrayList<BasketRow>();		
+		//Setup der Elemente 
+		meineliste = new ArrayList<BasketRow>();
+		//Setup der Artikelliste
 		setup();
 		btnScanArt = (Button) findViewById(R.id.btnScanArticle);
 		btnScanArt.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				//Durchführen des Scans
 				scanArticle();
 			}
 		});
@@ -85,10 +84,7 @@ public class BasketOverview extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO: move PerformCheckoutTask to checkout method
 				scanQRCode();
-				//PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
-				//performCheckoutTask.execute();
 			}
 		});
 	}
@@ -102,6 +98,7 @@ public class BasketOverview extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		//Je nach gewählten Menüitems durchführung einer Funktion
 		switch (item.getItemId()) {
 		case R.id.menu_enter_barcode:
 			enterBarcode();
@@ -128,7 +125,7 @@ public class BasketOverview extends Activity {
 		super.onDestroy();
 		this.destroyed = true;
 	}
-
+	//Bei serverkommunikation zeigen des Progressdialogs 
 	public void showProgressDialog(CharSequence message) {
 		if (this.progressDialog == null) {
 			this.progressDialog = new ProgressDialog(this);
@@ -144,7 +141,7 @@ public class BasketOverview extends Activity {
 			this.progressDialog.dismiss();
 		}
 	}
-
+	//Wechseln zum Statistik Bildschirm
 	private void showStatistics() {
 		final Intent intent = new Intent(this,
 				at.jku.smartshopper.client.ShowStatistics.class);
@@ -152,32 +149,37 @@ public class BasketOverview extends Activity {
 		startActivity(intent);
 
 	}
-
+	//Wechseln zum About- Bildschirm 
 	private void showAbout() {
 		final Intent intent = new Intent(this,
 				at.jku.smartshopper.client.About.class);
 
 		startActivity(intent);
 	}
-
+	/**
+	 * Einfügen des Adapters sowie aktualisieren der Gesammtsumme
+	 */
 	public void setup() {
 		adapter = new ArticleListAdapter(this, R.layout.article_list_item,
 				meineliste);
 		ListView articleListview = (ListView) findViewById(R.id.Basket_articleList);
 		articleListview.setAdapter(adapter);
-
-//		BasketRow testarticle = new BasketRow("90311185",  BigInteger.ONE, "Römerquelle Prickelnd ",
-//				1.49);
-//		adapter.add(testarticle);
 		updateTotal();
 	};
 
+	/**
+	 *  removes Article from List 
+	 * @param v to get the correct Item 
+	 */
 	public void removeArticleHandler(View v) {
 		BasketRow itemToRemove = (BasketRow) v.getTag();
 		adapter.remove(itemToRemove);
 		updateTotal();
 	}
-
+	/**
+	 * decreases Amount of the Item 
+	 * @param v to get the correct Item from the View 
+	 */
 	public void decreaseAmount(View v) {
 		BasketRow item = (BasketRow) v.getTag();
 		int pos = adapter.getPosition(item);
@@ -192,7 +194,10 @@ public class BasketOverview extends Activity {
 		}
 		updateTotal();
 	}
-
+	/**
+	 * increases  Amount of the Item 
+	 * @param v to get the correct Item from the View 
+	 */
 	public void increaseAmount(View v) {
 		BasketRow item = (BasketRow) v.getTag();
 		int pos = adapter.getPosition(item);
@@ -201,7 +206,10 @@ public class BasketOverview extends Activity {
 		adapter.insert(item, pos);
 		updateTotal();
 	}
-
+	
+	/**
+	 * to scan an Article 
+	 */
 	public void scanArticle() {
 		IntentIntegrator integrator = new IntentIntegrator(BasketOverview.this);
 		integrator.initiateScan();
@@ -272,11 +280,10 @@ public class BasketOverview extends Activity {
 		}
 	}
 
+	/**
+	 * starts chechout with the async Task Perfomcheckout 
+	 */
 	public void checkout() {
-		// TODO: start asynchronous task
-		//Toast.makeText(this, txtTotalAmount.getText(), Toast.LENGTH_SHORT)
-		//		.show();
-		
 		PerformCheckoutTask performCheckoutTask = new PerformCheckoutTask();
 		performCheckoutTask.execute();
 	}
@@ -366,6 +373,9 @@ public class BasketOverview extends Activity {
 		super.onConfigurationChanged(newConfig);
 	}
 
+	/**
+	 * update the total sum from the list
+	 */
 	public void updateTotal() {
 		double sum = 0;
 		for (int i = 0; i < adapter.getCount(); i++) {
@@ -381,6 +391,9 @@ public class BasketOverview extends Activity {
 
 	}
 
+	/**
+	 * overrides the use of the Backbutton
+	 */
 	@Override
 	public void onBackPressed() {
 		moveTaskToBack(true);
@@ -415,6 +428,9 @@ public class BasketOverview extends Activity {
 		closeDialog.show();
 	}
 
+	/**
+	 * shows LogoutDialog after User Klicks Logout
+	 */
 	private void showLogoutDialog(){
 		AlertDialog.Builder logoutDialog = new AlertDialog.Builder(this);
 
@@ -448,6 +464,9 @@ public class BasketOverview extends Activity {
 		startActivity(intent);
 	}
 	
+	/**
+	 * Starts Checkout Screen
+	 */
 	private void finishShopping(){
 		final Intent intent = new Intent(this,
 				at.jku.smartshopper.client.Checkout.class);
@@ -456,6 +475,10 @@ public class BasketOverview extends Activity {
 		startActivity(intent);
 	}
 
+	/**
+	 * does the Checkout
+	 * and gives the data to the server 
+	 */
 	private class PerformCheckoutTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -486,6 +509,10 @@ public class BasketOverview extends Activity {
 
 	}
 	
+	/**
+	 * gehts single Article with the Ean (Barcode)
+	 *
+	 */
 	private class PerformGetArticleTask extends AsyncTask<Void, Void, Void> {
 		String barcode;
 		Article article;

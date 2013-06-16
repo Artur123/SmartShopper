@@ -16,18 +16,11 @@ public class RemoteUserService implements IUserService {
 
 	@Override
 	public User getUser(String username, String password) {
-//		 User u = new User();
-//		 u.setUsername(username);
-//		 u.setPassword("");
-//		 return u;
 		try {
 			DisableSSLCertificateCheckUtil.disableChecks();
 			
 			RequestProvider provider = new RequestProvider();
 			HttpHeaders header = provider.getHttpHeader(username, password);
-
-			// HttpEntity<String> requestEntity = new
-			// HttpEntity<String>(username, header);
 
 			RestTemplate restTemplate = provider.getRestTemplate();
 
