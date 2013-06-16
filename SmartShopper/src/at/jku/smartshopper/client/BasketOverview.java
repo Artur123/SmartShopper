@@ -37,28 +37,27 @@ import at.jku.smartshopper.scanner.IntentResult;
 
 public class BasketOverview extends Activity {
 
-	//liste der Aktuellen Artikel
+	//list with all articles in basket
 	List<BasketRow> meineliste;
 	//Adapter zum Anzeigen der Artikel in der Übersicht
 	ArticleListAdapter adapter;
-	//Button zum Scannen eines neuen Artikels
+	//Button for scanning a new barcode
 	Button btnScanArt;
 	Button btnCheckout;
-	//Gesamtsumme des Einkaufskorbes
+	//total sum from basket
 	TextView txtTotalAmount;
-	//Dialog bei Kommunikation mit dem Server
+	//Dialog -> communication with server
 	private ProgressDialog progressDialog;
-	//Boolean Serverkommunikation unterbrochen
 	private boolean destroyed = false;
 	//set true when user clicked OK on checkout dialog
 	private boolean checkoutDialogResult = false;
-	//Daten des aktuellen Einkaufsshopes 
+	//Data of Shop 
 	private long shopID;
 	private Shop shop=null;
 
 
 	/***
-	 * Anzeige bei Erstellung der BasketOverview
+	 * Create the Overview
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +87,10 @@ public class BasketOverview extends Activity {
 			}
 		});
 	}
-
+	
+	/**
+	 * Create the options menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -96,10 +98,12 @@ public class BasketOverview extends Activity {
 		return true;
 	}
 
+	/**
+	 * Chooses the correct method from the selected item in menu
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		//Je nach gewählten Menüitems durchführung einer Funktion
-		switch (item.getItemId()) {
+			switch (item.getItemId()) {
 		case R.id.menu_enter_barcode:
 			enterBarcode();
 			return true;
@@ -125,7 +129,11 @@ public class BasketOverview extends Activity {
 		super.onDestroy();
 		this.destroyed = true;
 	}
-	//Bei serverkommunikation zeigen des Progressdialogs 
+	
+	/**
+	 * Starts the Progressdialog (usually with Server communication) 
+	 * @param message the message that is shown 
+	 */
 	public void showProgressDialog(CharSequence message) {
 		if (this.progressDialog == null) {
 			this.progressDialog = new ProgressDialog(this);
@@ -141,7 +149,9 @@ public class BasketOverview extends Activity {
 			this.progressDialog.dismiss();
 		}
 	}
-	//Wechseln zum Statistik Bildschirm
+	/**
+	 * Goes to the Statistic screen 
+	 */
 	private void showStatistics() {
 		final Intent intent = new Intent(this,
 				at.jku.smartshopper.client.ShowStatistics.class);
@@ -149,7 +159,9 @@ public class BasketOverview extends Activity {
 		startActivity(intent);
 
 	}
-	//Wechseln zum About- Bildschirm 
+	/**
+	 * Go to the about-Screen
+	 */
 	private void showAbout() {
 		final Intent intent = new Intent(this,
 				at.jku.smartshopper.client.About.class);
@@ -547,6 +559,10 @@ public class BasketOverview extends Activity {
 		
 	}
 
+	/**
+	 *  Get all Information about the Shop from the SErver with the data from the QR -code 
+	 *
+	 */
 	private class PerformGetShopTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
