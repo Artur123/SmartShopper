@@ -13,6 +13,9 @@ public class Checkout extends Activity {
 	EditText txtGoodbye;
 
 	/** Called when the activity is first created. */
+	/**
+	 * is loaded after checkout and simple gives the user a message
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

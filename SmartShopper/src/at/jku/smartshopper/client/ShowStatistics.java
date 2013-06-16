@@ -25,7 +25,7 @@ public class ShowStatistics extends Activity {
 	private boolean destroyed = false;
 
 	private Basket latestBasket;
-
+	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,6 +48,9 @@ public class ShowStatistics extends Activity {
 
 	}
 
+	/**
+	 * choose a action after menu item is clicked 
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -59,6 +62,9 @@ public class ShowStatistics extends Activity {
 		}
 	}
 
+	/**
+	 * end statistic and return to basket overview 
+	 */
 	private void backToBasket() {
 		Intent parentActivityIntent = new Intent(this, BasketOverview.class);
 		parentActivityIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -94,7 +100,10 @@ public class ShowStatistics extends Activity {
 		super.onDestroy();
 		this.destroyed = true;
 	}
-
+	/**
+	 * Progress dialog while communicating with server 
+	 * @param message
+	 */
 	public void showProgressDialog(CharSequence message) {
 		if (this.progressDialog == null) {
 			this.progressDialog = new ProgressDialog(this);
@@ -110,7 +119,11 @@ public class ShowStatistics extends Activity {
 			this.progressDialog.dismiss();
 		}
 	}
-
+	
+	/**
+	 * 
+	 * get the information from the server 
+	 */
 	private class PerformGetBasketTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -121,8 +134,6 @@ public class ShowStatistics extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			IBasketService service = new RemoteBasketService();
-
-			// TODO: remove Basket parameter?
 			latestBasket = service.getLatestBasket();
 
 			return null;

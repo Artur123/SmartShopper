@@ -45,10 +45,10 @@ public class Login extends Activity {
 				username = txtUsername.getText().toString();
 				password = txtPassword.getText().toString();
 				
+				//checks the data with the server 
 				PerformLoginTask performLoginTask = new PerformLoginTask();
 				performLoginTask.execute();
 
-				//startShopping();
 			}
 		});
 	}
@@ -63,9 +63,7 @@ public class Login extends Activity {
 		final Intent intent = new Intent(this,
 				at.jku.smartshopper.client.BasketOverview.class);
 
-//		intent.putExtra("username", user.getUsername());
-//		intent.putExtra("password", user.getPassword());
-		
+	
 		startActivity(intent);
 	}
 
@@ -75,6 +73,10 @@ public class Login extends Activity {
 		this.destroyed = true;
 	}
 
+	/**
+	 * Progress Dialog which shows during ServerCommunication
+	 * @param message
+	 */
 	public void showProgressDialog(CharSequence message) {
 		if (this.progressDialog == null) {
 			this.progressDialog = new ProgressDialog(this);
@@ -91,6 +93,10 @@ public class Login extends Activity {
 		}
 	}
 
+	/**
+	 * Async Task to Communicate with the Server and Validate the User 
+	 *
+	 */
 	private class PerformLoginTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
