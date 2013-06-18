@@ -14,26 +14,28 @@ import at.jku.smartshopper.objects.User;
 
 public class RemoteUserService implements IUserService {
 
+
 	@Override
 	public User getUser(String username, String password) {
 		try {
+			
 			DisableSSLCertificateCheckUtil.disableChecks();
+			
 			
 			RequestProvider provider = new RequestProvider();
 			HttpHeaders header = provider.getHttpHeader(username, password);
 
 			RestTemplate restTemplate = provider.getRestTemplate();
-
+			
 			Map<String, Object> urlVariables = new HashMap<String, Object>();
 			urlVariables.put("username", username);
 
-			// restTemplate.get(RequestProvider.GET_USER_URL, requestEntity,
-			// urlVariables);
+			//getUser from SErver 
 			ResponseEntity<User> userEntity = restTemplate.getForEntity(
 					RequestProvider.GET_USER_URL, User.class, urlVariables);
 
+		
 			User user = new User();
-			//user.setSortCode(userEntity.getBody().getSortCode());
 			user = userEntity.getBody();
 			return user;
 		} catch (KeyManagementException e) {

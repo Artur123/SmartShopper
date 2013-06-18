@@ -16,18 +16,12 @@ public class RemoteShopService implements IShopService{
 
 	@Override
 	public Shop getShop(Long shopId) {
-//		if(shopId == 1234)
-//			return new Shop();
-//		else
-//			return null;
 		try {
+			
 			DisableSSLCertificateCheckUtil.disableChecks();
 			
 			RequestProvider provider = new RequestProvider();
 			HttpHeaders header = provider.getHttpHeader();
-
-			// HttpEntity<String> requestEntity = new
-			// HttpEntity<String>(username, header);
 
 			RestTemplate restTemplate = provider.getRestTemplate();
 
