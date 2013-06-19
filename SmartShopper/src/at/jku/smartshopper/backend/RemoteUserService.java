@@ -21,20 +21,20 @@ public class RemoteUserService implements IUserService {
 			
 			DisableSSLCertificateCheckUtil.disableChecks();
 			
-			
+			//create instance of request provider which helps with some convencience methods
 			RequestProvider provider = new RequestProvider();
 			HttpHeaders header = provider.getHttpHeader(username, password);
 
 			RestTemplate restTemplate = provider.getRestTemplate();
-			
+			//create map which contains url data
 			Map<String, Object> urlVariables = new HashMap<String, Object>();
 			urlVariables.put("username", username);
 
-			//getUser from SErver 
+			//make rest request
 			ResponseEntity<User> userEntity = restTemplate.getForEntity(
 					RequestProvider.GET_USER_URL, User.class, urlVariables);
 
-		
+			//map request data to business objects
 			User user = new User();
 			user = userEntity.getBody();
 			return user;
@@ -45,7 +45,6 @@ public class RemoteUserService implements IUserService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (RestClientException e) {
-			//TODO: DISPLAY WRONG LOGIN DATA
 			//return null shows "wrong login data dialog"
 			return null;
 		}

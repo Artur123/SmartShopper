@@ -16,29 +16,25 @@ public class RemoteArticleService implements IArticleService {
 	@Override
 	public Article getArticleById(String barcode) {
 		
-//		Article art = new Article();
-//		art.setBarcode("123456");
-//		art.setName("Binder 44/21");
-//		art.setPrice(12.33);
-//		return art;
 		try {
 			DisableSSLCertificateCheckUtil.disableChecks();
+			//create instance of request provider which helps with some convencience methods
 
 			RequestProvider provider = new RequestProvider();
 			HttpHeaders header = provider.getHttpHeader();
 
-			// HttpEntity<String> requestEntity = new
-			// HttpEntity<String>(username, header);
-
 			RestTemplate restTemplate = provider.getRestTemplate();
+			//create map which contains url data
 
 			Map<String, Object> urlVariables = new HashMap<String, Object>();
 			urlVariables.put("barcode", barcode);
 
-			// restTemplate.get(RequestProvider.GET_USER_URL, requestEntity,
-			// urlVariables);
+			//make rest request
+
 			ResponseEntity<Article> articleEntity = restTemplate.getForEntity(
 					RequestProvider.GET_ARTICLE_URL, Article.class, urlVariables);
+			//map request data to business objects
+
 			Article article = new Article();
 			article.setBarcode(articleEntity.getBody().getBarcode());
 			article.setName(articleEntity.getBody().getName());

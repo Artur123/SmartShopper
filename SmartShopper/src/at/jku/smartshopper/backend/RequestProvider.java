@@ -32,22 +32,26 @@ public class RequestProvider {
 	public static String GET_SHOP_URL = SERVICE_URL + "/shop/{shopId}";
 	
 	
-//	public static String PUT_BASKET_URL = "https://192.168.30.224:50443/smartshopper.backend/basket/{username}/basket/{timestamp}/";
-//	public static String GET_ALL_BASKET_URL = "https://192.168.30.224:50443/smartshopper.backend/basket/{username}/basket/all/";
 	
-	
+	/**
+	 * returns http header which contains basic authentication data from business data context
+	 * @return Header
+	 */
 	public HttpHeaders getHttpHeader() {
 		String username = UserInstance.getInstance().getUsername();
 		String password = UserInstance.getInstance().getPassword();
-//		String username = "smartshopper";
-//		String password = "smart";
 		HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAuthorization(authHeader);
 		return requestHeaders;
 	}
 	
-	
+	/**
+	 * returns http header which contains given basic authentication data
+	 * @param username
+	 * @param password
+	 * @return Header
+	 */
 	public HttpHeaders getHttpHeader(String username, String password) {
 		HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -55,7 +59,10 @@ public class RequestProvider {
 		return requestHeaders;
 	}
 
-	
+	/**
+	 * returns rest request temaplte which can be used for sending requests to server
+	 * @return
+	 */
 	public RestTemplate getRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate();
 		MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
